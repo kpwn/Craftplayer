@@ -15,21 +15,27 @@
     MCAuth* ret = [[[MCAuth alloc] init] autorelease];
     [ret setUsername:user];
     [ret setPassword:pass];
-    [ret setIsKeepingAlive:YES];
+    [ret setIsKeepingAlive:NO];
     return ret;
 }
 -(MCAuth*)initWithUsername:(NSString*)user andPassword:(NSString*)pass
 {
     [self setUsername:user];
     [self setPassword:pass];
-    [self setIsKeepingAlive:YES];
+    [self setIsKeepingAlive:NO];
     return self;
 }
 -(void)keepAlive
 {
-    while (sleep(30)&&[self isKeepingAlive]) {
-        
+    NSAutoreleasePool* pool = [NSAutoreleasePool new];
+    while (sleep(280)&&[self isKeepingAlive]) {
+        [pool drain];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"https://login.minecraft.net/session?name=%@&session=%@", [self username], [[self login] objectForKey:kMCAuthToken]]]];
+        [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        [request release];
+        pool = [NSAutoreleasePool new];
     }
+    [pool drain];
 }
 -(NSDictionary*)login
 {
@@ -52,6 +58,7 @@
             return loginDict;
         }
         [self performSelectorInBackground:@selector(keepAlive) withObject:nil];
+        [self setIsKeepingAlive:YES];
         [serverResponse release];
         [request release];
     }
