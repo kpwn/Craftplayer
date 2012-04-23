@@ -1,0 +1,280 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EA0F5EA31545D5EB00AD9AC7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */; };
+		EA0F5EA51545D5EB00AD9AC7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0F5EA41545D5EB00AD9AC7 /* Foundation.framework */; };
+		EA0F5EA71545D5EB00AD9AC7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0F5EA61545D5EB00AD9AC7 /* CoreGraphics.framework */; };
+		EA0F5EAD1545D5EB00AD9AC7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA0F5EAB1545D5EB00AD9AC7 /* InfoPlist.strings */; };
+		EA0F5EAF1545D5EB00AD9AC7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EAE1545D5EB00AD9AC7 /* main.m */; };
+		EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */; };
+		EA0F5EB61545D5EB00AD9AC7 /* MCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */; };
+		EA0F5EB91545D5EB00AD9AC7 /* MCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EA0F5E9E1545D5EB00AD9AC7 /* Craftplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Craftplayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EA0F5EA41545D5EB00AD9AC7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EA0F5EA61545D5EB00AD9AC7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EA0F5EAA1545D5EB00AD9AC7 /* Craftplayer-Info.plist */ = {isa = PBXFileReference; path = "Craftplayer-Info.plist"; sourceTree = "<group>"; };
+		EA0F5EAC1545D5EB00AD9AC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA0F5EAE1545D5EB00AD9AC7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EA0F5EB01545D5EB00AD9AC7 /* Craftplayer-Prefix.pch */ = {isa = PBXFileReference; path = "Craftplayer-Prefix.pch"; sourceTree = "<group>"; };
+		EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */ = {isa = PBXFileReference; path = MCAppDelegate.h; sourceTree = "<group>"; };
+		EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
+		EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */ = {isa = PBXFileReference; path = MCViewController.h; sourceTree = "<group>"; };
+		EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCViewController.m; sourceTree = "<group>"; };
+		EA0F5EB81545D5EB00AD9AC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MCViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA0F5E9B1545D5EB00AD9AC7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA0F5EA31545D5EB00AD9AC7 /* UIKit.framework in Frameworks */,
+				EA0F5EA51545D5EB00AD9AC7 /* Foundation.framework in Frameworks */,
+				EA0F5EA71545D5EB00AD9AC7 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EA0F5E931545D5EB00AD9AC7 = {
+			isa = PBXGroup;
+			children = (
+				EA0F5EA81545D5EB00AD9AC7 /* Craftplayer */,
+				EA0F5EA11545D5EB00AD9AC7 /* Frameworks */,
+				EA0F5E9F1545D5EB00AD9AC7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EA0F5E9F1545D5EB00AD9AC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA0F5E9E1545D5EB00AD9AC7 /* Craftplayer.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA0F5EA11545D5EB00AD9AC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */,
+				EA0F5EA41545D5EB00AD9AC7 /* Foundation.framework */,
+				EA0F5EA61545D5EB00AD9AC7 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA0F5EA81545D5EB00AD9AC7 /* Craftplayer */ = {
+			isa = PBXGroup;
+			children = (
+				EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */,
+				EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */,
+				EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */,
+				EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */,
+				EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */,
+				EA0F5EA91545D5EB00AD9AC7 /* Supporting Files */,
+			);
+			path = Craftplayer;
+			sourceTree = "<group>";
+		};
+		EA0F5EA91545D5EB00AD9AC7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA0F5EAA1545D5EB00AD9AC7 /* Craftplayer-Info.plist */,
+				EA0F5EAB1545D5EB00AD9AC7 /* InfoPlist.strings */,
+				EA0F5EAE1545D5EB00AD9AC7 /* main.m */,
+				EA0F5EB01545D5EB00AD9AC7 /* Craftplayer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EA0F5E9D1545D5EB00AD9AC7 /* Craftplayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA0F5EBC1545D5EB00AD9AC7 /* Build configuration list for PBXNativeTarget "Craftplayer" */;
+			buildPhases = (
+				EA0F5E9A1545D5EB00AD9AC7 /* Sources */,
+				EA0F5E9B1545D5EB00AD9AC7 /* Frameworks */,
+				EA0F5E9C1545D5EB00AD9AC7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Craftplayer;
+			productName = Craftplayer;
+			productReference = EA0F5E9E1545D5EB00AD9AC7 /* Craftplayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA0F5E951545D5EB00AD9AC7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MC;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = EA0F5E981545D5EB00AD9AC7 /* Build configuration list for PBXProject "Craftplayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EA0F5E931545D5EB00AD9AC7;
+			productRefGroup = EA0F5E9F1545D5EB00AD9AC7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA0F5E9D1545D5EB00AD9AC7 /* Craftplayer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA0F5E9C1545D5EB00AD9AC7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA0F5EAD1545D5EB00AD9AC7 /* InfoPlist.strings in Resources */,
+				EA0F5EB91545D5EB00AD9AC7 /* MCViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA0F5E9A1545D5EB00AD9AC7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA0F5EAF1545D5EB00AD9AC7 /* main.m in Sources */,
+				EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */,
+				EA0F5EB61545D5EB00AD9AC7 /* MCViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EA0F5EAB1545D5EB00AD9AC7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA0F5EAC1545D5EB00AD9AC7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA0F5EB81545D5EB00AD9AC7 /* en */,
+			);
+			name = MCViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EA0F5EBA1545D5EB00AD9AC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EA0F5EBB1545D5EB00AD9AC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EA0F5EBD1545D5EB00AD9AC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Craftplayer/Craftplayer-Prefix.pch";
+				INFOPLIST_FILE = "Craftplayer/Craftplayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EA0F5EBE1545D5EB00AD9AC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Craftplayer/Craftplayer-Prefix.pch";
+				INFOPLIST_FILE = "Craftplayer/Craftplayer-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA0F5E981545D5EB00AD9AC7 /* Build configuration list for PBXProject "Craftplayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA0F5EBA1545D5EB00AD9AC7 /* Debug */,
+				EA0F5EBB1545D5EB00AD9AC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA0F5EBC1545D5EB00AD9AC7 /* Build configuration list for PBXNativeTarget "Craftplayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA0F5EBD1545D5EB00AD9AC7 /* Debug */,
+				EA0F5EBE1545D5EB00AD9AC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA0F5E951545D5EB00AD9AC7 /* Project object */;
+}
