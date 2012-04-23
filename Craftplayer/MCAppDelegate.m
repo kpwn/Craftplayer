@@ -7,7 +7,7 @@
 //
 
 #import "MCAppDelegate.h"
-
+#import "MCAuth.h"
 #import "MCViewController.h"
 
 @implementation MCAppDelegate

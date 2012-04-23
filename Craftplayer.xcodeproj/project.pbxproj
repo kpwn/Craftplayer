@@ -15,6 +15,9 @@
 		EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */; };
 		EA0F5EB61545D5EB00AD9AC7 /* MCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */; };
 		EA0F5EB91545D5EB00AD9AC7 /* MCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */; };
+		EA0F5EC11545D62A00AD9AC7 /* MCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */; };
+		EA0F5EC61545D64700AD9AC7 /* MCAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC51545D64700AD9AC7 /* MCAuth.m */; };
+		EA0F5EC91545DF1700AD9AC7 /* MCSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,15 +25,23 @@
 		EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA0F5EA41545D5EB00AD9AC7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA0F5EA61545D5EB00AD9AC7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EA0F5EAA1545D5EB00AD9AC7 /* Craftplayer-Info.plist */ = {isa = PBXFileReference; path = "Craftplayer-Info.plist"; sourceTree = "<group>"; };
+		EA0F5EAA1545D5EB00AD9AC7 /* Craftplayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Craftplayer-Info.plist"; sourceTree = "<group>"; };
 		EA0F5EAC1545D5EB00AD9AC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA0F5EAE1545D5EB00AD9AC7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EA0F5EB01545D5EB00AD9AC7 /* Craftplayer-Prefix.pch */ = {isa = PBXFileReference; path = "Craftplayer-Prefix.pch"; sourceTree = "<group>"; };
-		EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */ = {isa = PBXFileReference; path = MCAppDelegate.h; sourceTree = "<group>"; };
+		EA0F5EB01545D5EB00AD9AC7 /* Craftplayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Craftplayer-Prefix.pch"; sourceTree = "<group>"; };
+		EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCAppDelegate.h; sourceTree = "<group>"; };
 		EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCAppDelegate.m; sourceTree = "<group>"; };
-		EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */ = {isa = PBXFileReference; path = MCViewController.h; sourceTree = "<group>"; };
+		EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCViewController.h; sourceTree = "<group>"; };
 		EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCViewController.m; sourceTree = "<group>"; };
 		EA0F5EB81545D5EB00AD9AC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MCViewController.xib; sourceTree = "<group>"; };
+		EA0F5EBF1545D62A00AD9AC7 /* MCPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayer.h; sourceTree = "<group>"; };
+		EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPlayer.m; sourceTree = "<group>"; };
+		EA0F5EC21545D64000AD9AC7 /* NSString+javaString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+javaString.h"; sourceTree = "<group>"; };
+		EA0F5EC31545D64000AD9AC7 /* NSString+javaString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+javaString.m"; sourceTree = "<group>"; };
+		EA0F5EC41545D64700AD9AC7 /* MCAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAuth.h; sourceTree = "<group>"; };
+		EA0F5EC51545D64700AD9AC7 /* MCAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAuth.m; sourceTree = "<group>"; };
+		EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSocket.h; sourceTree = "<group>"; };
+		EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +93,14 @@
 				EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */,
 				EA0F5EB51545D5EB00AD9AC7 /* MCViewController.m */,
 				EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */,
+				EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */,
+				EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */,
+				EA0F5EBF1545D62A00AD9AC7 /* MCPlayer.h */,
+				EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */,
+				EA0F5EC41545D64700AD9AC7 /* MCAuth.h */,
+				EA0F5EC51545D64700AD9AC7 /* MCAuth.m */,
+				EA0F5EC21545D64000AD9AC7 /* NSString+javaString.h */,
+				EA0F5EC31545D64000AD9AC7 /* NSString+javaString.m */,
 				EA0F5EA91545D5EB00AD9AC7 /* Supporting Files */,
 			);
 			path = Craftplayer;
@@ -164,6 +183,9 @@
 				EA0F5EAF1545D5EB00AD9AC7 /* main.m in Sources */,
 				EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */,
 				EA0F5EB61545D5EB00AD9AC7 /* MCViewController.m in Sources */,
+				EA0F5EC11545D62A00AD9AC7 /* MCPlayer.m in Sources */,
+				EA0F5EC61545D64700AD9AC7 /* MCAuth.m in Sources */,
+				EA0F5EC91545DF1700AD9AC7 /* MCSocket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
