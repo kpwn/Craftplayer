@@ -25,4 +25,5 @@
 +(MCAuth*)authWithUsername:(NSString*)user andPassword:(NSString*)pass;
 -(MCAuth*)initWithUsername:(NSString*)user andPassword:(NSString*)pass;
 -(NSDictionary*)login;
+-(BOOL)joinToServer:(NSString*)lol;
 @end

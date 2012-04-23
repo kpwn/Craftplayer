@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface MCSocket : NSObject
-
+#import "MCAuth.h"
+@interface MCSocket : NSObject <NSStreamDelegate>
+{
+    NSInputStream *inputStream;
+    NSOutputStream *outputStream;
+    MCAuth* auth;
+}
+@property(readonly) NSInputStream *inputStream;
+@property(readonly) NSOutputStream *outputStream;
+@property(readonly) MCAuth* auth;
 @end

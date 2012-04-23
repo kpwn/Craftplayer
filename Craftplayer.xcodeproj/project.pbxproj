@@ -18,6 +18,9 @@
 		EA0F5EC11545D62A00AD9AC7 /* MCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */; };
 		EA0F5EC61545D64700AD9AC7 /* MCAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC51545D64700AD9AC7 /* MCAuth.m */; };
 		EA0F5EC91545DF1700AD9AC7 /* MCSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */; };
+		EA0F5ECC1545E70F00AD9AC7 /* MCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */; };
+		EA0F5ECD1545E98B00AD9AC7 /* MCString.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC31545D64000AD9AC7 /* MCString.m */; };
+		EA0F5ECF1545FB1400AD9AC7 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,12 +39,15 @@
 		EA0F5EB81545D5EB00AD9AC7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MCViewController.xib; sourceTree = "<group>"; };
 		EA0F5EBF1545D62A00AD9AC7 /* MCPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPlayer.h; sourceTree = "<group>"; };
 		EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPlayer.m; sourceTree = "<group>"; };
-		EA0F5EC21545D64000AD9AC7 /* NSString+javaString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+javaString.h"; sourceTree = "<group>"; };
-		EA0F5EC31545D64000AD9AC7 /* NSString+javaString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+javaString.m"; sourceTree = "<group>"; };
+		EA0F5EC21545D64000AD9AC7 /* MCString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCString.h; sourceTree = "<group>"; };
+		EA0F5EC31545D64000AD9AC7 /* MCString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCString.m; sourceTree = "<group>"; };
 		EA0F5EC41545D64700AD9AC7 /* MCAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAuth.h; sourceTree = "<group>"; };
 		EA0F5EC51545D64700AD9AC7 /* MCAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCAuth.m; sourceTree = "<group>"; };
 		EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSocket.h; sourceTree = "<group>"; };
 		EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSocket.m; sourceTree = "<group>"; };
+		EA0F5ECA1545E70F00AD9AC7 /* MCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPacket.h; sourceTree = "<group>"; };
+		EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPacket.m; sourceTree = "<group>"; };
+		EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA0F5ECF1545FB1400AD9AC7 /* libiconv.dylib in Frameworks */,
 				EA0F5EA31545D5EB00AD9AC7 /* UIKit.framework in Frameworks */,
 				EA0F5EA51545D5EB00AD9AC7 /* Foundation.framework in Frameworks */,
 				EA0F5EA71545D5EB00AD9AC7 /* CoreGraphics.framework in Frameworks */,
@@ -61,6 +68,7 @@
 		EA0F5E931545D5EB00AD9AC7 = {
 			isa = PBXGroup;
 			children = (
+				EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */,
 				EA0F5EA81545D5EB00AD9AC7 /* Craftplayer */,
 				EA0F5EA11545D5EB00AD9AC7 /* Frameworks */,
 				EA0F5E9F1545D5EB00AD9AC7 /* Products */,
@@ -95,12 +103,14 @@
 				EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */,
 				EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */,
 				EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */,
+				EA0F5ECA1545E70F00AD9AC7 /* MCPacket.h */,
+				EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */,
 				EA0F5EBF1545D62A00AD9AC7 /* MCPlayer.h */,
 				EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */,
 				EA0F5EC41545D64700AD9AC7 /* MCAuth.h */,
 				EA0F5EC51545D64700AD9AC7 /* MCAuth.m */,
-				EA0F5EC21545D64000AD9AC7 /* NSString+javaString.h */,
-				EA0F5EC31545D64000AD9AC7 /* NSString+javaString.m */,
+				EA0F5EC21545D64000AD9AC7 /* MCString.h */,
+				EA0F5EC31545D64000AD9AC7 /* MCString.m */,
 				EA0F5EA91545D5EB00AD9AC7 /* Supporting Files */,
 			);
 			path = Craftplayer;
@@ -180,12 +190,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA0F5ECD1545E98B00AD9AC7 /* MCString.m in Sources */,
 				EA0F5EAF1545D5EB00AD9AC7 /* main.m in Sources */,
 				EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */,
 				EA0F5EB61545D5EB00AD9AC7 /* MCViewController.m in Sources */,
 				EA0F5EC11545D62A00AD9AC7 /* MCPlayer.m in Sources */,
 				EA0F5EC61545D64700AD9AC7 /* MCAuth.m in Sources */,
 				EA0F5EC91545DF1700AD9AC7 /* MCSocket.m in Sources */,
+				EA0F5ECC1545E70F00AD9AC7 /* MCPacket.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

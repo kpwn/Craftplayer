@@ -8,6 +8,7 @@
 
 #import "MCAppDelegate.h"
 #import "MCAuth.h"
+#import "MCSocket.h"
 #import "MCViewController.h"
 
 @implementation MCAppDelegate
@@ -29,6 +30,7 @@
     self.viewController = [[[MCViewController alloc] initWithNibName:@"MCViewController" bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    [[MCSocket new] connect];
     return YES;
 }
 
