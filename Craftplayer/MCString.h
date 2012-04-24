@@ -24,4 +24,5 @@ typedef struct m_char
 }
 +(m_char_t*)MCStringFromString:(NSString*)str;
 +(NSString*)NSStringWithMinecraftString:(m_char_t*)string;
++(NSArray*)createColorandTextPairsForMinecraftFormattedString:(NSString*)string;
 @end

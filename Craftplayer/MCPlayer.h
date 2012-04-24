@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MCEntity.h"
 
-@interface MCPlayer : NSObject
+@interface MCPlayer : MCEntity
 
 @end

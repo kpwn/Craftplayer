@@ -21,6 +21,9 @@
 		EA0F5ECC1545E70F00AD9AC7 /* MCPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */; };
 		EA0F5ECD1545E98B00AD9AC7 /* MCString.m in Sources */ = {isa = PBXBuildFile; fileRef = EA0F5EC31545D64000AD9AC7 /* MCString.m */; };
 		EA0F5ECF1545FB1400AD9AC7 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */; };
+		EA63E7711546D8E60047F97C /* MCEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = EA63E7701546D8E60047F97C /* MCEntity.m */; };
+		EA63E7741546DA720047F97C /* MCColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EA63E7731546DA720047F97C /* MCColor.m */; };
+		EA63E77F1546E9B60047F97C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA63E77E1546E9B60047F97C /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +51,11 @@
 		EA0F5ECA1545E70F00AD9AC7 /* MCPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPacket.h; sourceTree = "<group>"; };
 		EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCPacket.m; sourceTree = "<group>"; };
 		EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		EA63E76F1546D8E60047F97C /* MCEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEntity.h; sourceTree = "<group>"; };
+		EA63E7701546D8E60047F97C /* MCEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCEntity.m; sourceTree = "<group>"; };
+		EA63E7721546DA710047F97C /* MCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCColor.h; sourceTree = "<group>"; };
+		EA63E7731546DA720047F97C /* MCColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCColor.m; sourceTree = "<group>"; };
+		EA63E77E1546E9B60047F97C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA63E77F1546E9B60047F97C /* CoreText.framework in Frameworks */,
 				EA0F5ECF1545FB1400AD9AC7 /* libiconv.dylib in Frameworks */,
 				EA0F5EA31545D5EB00AD9AC7 /* UIKit.framework in Frameworks */,
 				EA0F5EA51545D5EB00AD9AC7 /* Foundation.framework in Frameworks */,
@@ -68,7 +77,6 @@
 		EA0F5E931545D5EB00AD9AC7 = {
 			isa = PBXGroup;
 			children = (
-				EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */,
 				EA0F5EA81545D5EB00AD9AC7 /* Craftplayer */,
 				EA0F5EA11545D5EB00AD9AC7 /* Frameworks */,
 				EA0F5E9F1545D5EB00AD9AC7 /* Products */,
@@ -86,6 +94,8 @@
 		EA0F5EA11545D5EB00AD9AC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EA63E77E1546E9B60047F97C /* CoreText.framework */,
+				EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */,
 				EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */,
 				EA0F5EA41545D5EB00AD9AC7 /* Foundation.framework */,
 				EA0F5EA61545D5EB00AD9AC7 /* CoreGraphics.framework */,
@@ -96,6 +106,10 @@
 		EA0F5EA81545D5EB00AD9AC7 /* Craftplayer */ = {
 			isa = PBXGroup;
 			children = (
+				EA63E7721546DA710047F97C /* MCColor.h */,
+				EA63E7731546DA720047F97C /* MCColor.m */,
+				EA63E76F1546D8E60047F97C /* MCEntity.h */,
+				EA63E7701546D8E60047F97C /* MCEntity.m */,
 				EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */,
 				EA0F5EB21545D5EB00AD9AC7 /* MCAppDelegate.m */,
 				EA0F5EB41545D5EB00AD9AC7 /* MCViewController.h */,
@@ -198,6 +212,8 @@
 				EA0F5EC61545D64700AD9AC7 /* MCAuth.m in Sources */,
 				EA0F5EC91545DF1700AD9AC7 /* MCSocket.m in Sources */,
 				EA0F5ECC1545E70F00AD9AC7 /* MCPacket.m in Sources */,
+				EA63E7711546D8E60047F97C /* MCEntity.m in Sources */,
+				EA63E7741546DA720047F97C /* MCColor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

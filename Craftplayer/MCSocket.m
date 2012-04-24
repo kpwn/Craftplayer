@@ -13,7 +13,7 @@
 @synthesize inputStream, outputStream, auth;
 -(void)connect
 {
-    auth = [[MCAuth authWithUsername:@"20emma2" andPassword:@"20emma2"] retain];
+    auth = [[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"] retain];
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"127.0.0.1", 13371

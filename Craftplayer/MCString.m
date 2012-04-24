@@ -8,6 +8,7 @@
 
 
 #import "MCString.h"
+#import "MCColor.h"
 #include <iconv.h>
 
 @implementation MCString
@@ -23,6 +24,21 @@
     NSData* data = [[NSData alloc] initWithBytes:string->data length:flipshort(string->len)*2];
     id ret = [[NSString alloc] initWithData:data encoding:NSUTF16BigEndianStringEncoding];
     [data release];
+    return [ret autorelease];
+}
++(NSArray*)createColorandTextPairsForMinecraftFormattedString:(NSString*)string
+{
+    NSString* stringWithDefaultColor = [@"\u00A7f" stringByAppendingString:string];
+    NSArray* pieces = [stringWithDefaultColor componentsSeparatedByString:@"\u00a7"];
+    NSMutableArray* ret = [[NSMutableArray alloc] initWithCapacity:[pieces count]];
+    for(NSString* piece in pieces)
+    {
+        @try {
+            [ret addObject:[NSArray arrayWithObjects:[MCColor colorWithCode:[piece characterAtIndex:0]], [piece substringFromIndex:1], nil]];
+        }
+        @catch (NSException *exception) {
+        }
+    }
     return [ret autorelease];
 }
 @end

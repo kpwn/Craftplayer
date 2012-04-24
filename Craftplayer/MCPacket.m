@@ -38,7 +38,7 @@
                             NSString* kdata=[MCString NSStringWithMinecraftString:(m_char_t*)data];
                             if(![[[self sock] auth] joinToServer:kdata])
                             {
-                                NSLog(@"A wild error! <%@>", [[[[self sock] auth] login] objectForKey:kMCAuthError]);
+                                NSLog(@"A wild error! <%@>", [[[[self sock] auth] login] objectForKey:kMCAuthResult]);
                             } else {
                                 unsigned char pckid=0x01;
                                 [[[self sock] outputStream] write:&pckid maxLength:1];
@@ -173,7 +173,7 @@
                         if ([buffer length] == (len*2 + 2))
                         {
                             NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                      [MCString NSStringWithMinecraftString:(m_char_t *)data], @"Message",
+                                                      [MCString createColorandTextPairsForMinecraftFormattedString:[MCString NSStringWithMinecraftString:(m_char_t *)data]], @"Message",
                                                       @"ChatMessage", @"PacketType",
                                                       nil];
                             [[self sock] packet:self gotParsed:infoDict];
@@ -183,6 +183,45 @@
                         }
                     }
                     break;
+                case 0x46:
+                    if ([buffer length] == 2) {
+                        const unsigned char* data=[buffer bytes];
+                        NSString* reason=@"Unknown";
+                        switch (*data) {
+                            case 0:
+                                reason=@"Invalid Bed";
+                                break;
+                                
+                            case 1:
+                                reason=@"Begin Raining";
+                                break;
+                                
+                            case 2:
+                                reason=@"End Raining";
+                                break;
+                                
+                            case 3:
+                                reason=@"Change Gamemode";
+                                break;
+                                
+                            case 4:
+                                reason=@"Credits";
+                                break;
+                                
+                            default:
+                                break;
+                        }
+                        NSString* gm=(*data == 3) ? ((*(data+1) == 0) ? @"Survival" : @"Creative") : @"Unknown";
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  reason , @"Reason",
+                                                  gm, @"GameMode",
+                                                  @"ChangeState", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
                 case 0x00:
                     if ([buffer length] == 4) {
                         char* retpacket=malloc(5);
