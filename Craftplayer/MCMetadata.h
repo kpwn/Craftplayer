@@ -14,6 +14,7 @@
 {
     id oldDelegate;
     id stream;
+    MCEntity* entity;
     NSMutableData* buffer;
     NSMutableArray* metadata;
     NSString* etype;
@@ -22,5 +23,6 @@
 @property(retain) id stream;
 @property(readonly) NSMutableArray* metadata;
 @property(retain) NSString* etype;
-+(MCMetadata*)metadataWithSocket:(MCSocket*)socket andEntity:(MCEntity*)entity andType:(NSString*)etype;
+@property(retain) MCEntity* entity;
++(MCMetadata*)metadataWithSocket:(MCSocket*)socket andEntity:(MCEntity*)aentity andType:(NSString*)etype;
 @end

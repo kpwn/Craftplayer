@@ -438,10 +438,62 @@
                         const unsigned char* data = [buffer bytes];
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID",
-                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+4))], @"VelocityX",
-                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+6))], @"VelocityY",
-                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+8))], @"VelocityZ",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+4))], @"VelocityX",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+6))], @"VelocityY",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+8))], @"VelocityZ",
                                                   @"EntityVelocity", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x32:
+                    if ([buffer length] == 9) {
+                        const unsigned char* data = [buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"X",
+                                                  [NSNumber numberWithInt:OSSwapInt32(*(int*)(data+4))], @"Z",
+                                                  ((*(char*)(data+8)) == 0) ? @"DellocateColumn" : @"AllocateColumn", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0xC9:
+                    if ([buffer length] >= 2) {
+                        const unsigned char* data=[buffer bytes];
+                        short len = flipshort(*(short*)data);
+                        if ([buffer length] == (len*2 + 5))
+                        {
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [MCString createColorandTextPairsForMinecraftFormattedString:[MCString NSStringWithMinecraftString:(m_char_t *)data]], @"Nick",
+                                                      [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+3+len*2))], @"Ping",
+                                                      [NSNumber numberWithBool:(*(BOOL*)(data+len*2+2))], @"IsOnline",
+                                                      @"PlayerListItem", @"PacketType",
+                                                      nil];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
+                case 0x0D:
+                    if ([buffer length] == 41) {
+                        const unsigned char* data = [buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)data))], @"X",
+                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+8)))], @"Stance",
+                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+16)))], @"Y",
+                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+24)))], @"Z",
+                                                  [NSNumber numberWithFloat:OSSwapInt32((*(uint32_t*)((char*)data+32)))], @"Yaw",
+                                                  [NSNumber numberWithFloat:OSSwapInt32((*(uint32_t*)((char*)data+36)))], @"Pitch",
+                                                  [NSNumber numberWithBool:(*(BOOL*)(data+40))], @"On Ground",
+                                                  @"PositionAndLook", @"PacketType",
                                                   nil];
                         [[self sock] packet:self gotParsed:infoDict];
                         [[[self sock] inputStream] setDelegate:[self sock]];

@@ -9,8 +9,8 @@
 #import "MCMetadata.h"
 #import "MCSocket.h"
 @implementation MCMetadata
-@synthesize oldDelegate, stream, metadata, etype;
-+(MCMetadata*)metadataWithSocket:(MCSocket*)socket andEntity:(MCEntity*)entity andType:(NSString *)etype
+@synthesize oldDelegate, stream, metadata, etype, entity;
++(MCMetadata*)metadataWithSocket:(MCSocket*)socket andEntity:(MCEntity*)aentity andType:(NSString *)etype
 {
     id ret = [MCMetadata new];
     [ret setStream:[socket inputStream]];
@@ -40,6 +40,8 @@
                 [buffer release];
                 [self setOldDelegate:nil];
                 [self autorelease];
+                [entity setMetadata:self];
+                [self setEntity:nil];
                 return;
             }
             char index=(*data)&0x1F; 
