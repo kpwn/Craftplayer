@@ -183,6 +183,23 @@
                         }
                     }
                     break;
+                case 0xFF:
+                    if ([buffer length] >= 2) {
+                        const unsigned char* data=[buffer bytes];
+                        short len = flipshort(*(short*)data);
+                        if ([buffer length] == (len*2 + 2))
+                        {
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [MCString createColorandTextPairsForMinecraftFormattedString:[MCString NSStringWithMinecraftString:(m_char_t *)data]], @"Message",
+                                                      @"Disconnect", @"PacketType",
+                                                      nil];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
                 case 0x46:
                     if ([buffer length] == 2) {
                         const unsigned char* data=[buffer bytes];
@@ -222,6 +239,9 @@
                         [self release];
                         return;
                     }
+                case 0x18:
+                    
+                    break;
                 case 0x00:
                     if ([buffer length] == 4) {
                         char* retpacket=malloc(5);
@@ -232,6 +252,10 @@
                     }
                     break;
                 default:
+                    NSLog(@"Unknown packet [%02X]", identifier);
+                    [[[self sock] outputStream] close];
+                    [[[self sock] inputStream] setDelegate:[self sock]];
+                    [self release];
                     break;
             }
     }

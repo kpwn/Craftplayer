@@ -24,6 +24,8 @@
 		EA63E7711546D8E60047F97C /* MCEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = EA63E7701546D8E60047F97C /* MCEntity.m */; };
 		EA63E7741546DA720047F97C /* MCColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EA63E7731546DA720047F97C /* MCColor.m */; };
 		EA63E77F1546E9B60047F97C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA63E77E1546E9B60047F97C /* CoreText.framework */; };
+		EAE4F2F81546FB510070076E /* MCMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F2F71546FB510070076E /* MCMetadata.m */; };
+		EAE4F2FC1546FB820070076E /* MCEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F2FB1546FB820070076E /* MCEffect.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +58,10 @@
 		EA63E7721546DA710047F97C /* MCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCColor.h; sourceTree = "<group>"; };
 		EA63E7731546DA720047F97C /* MCColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCColor.m; sourceTree = "<group>"; };
 		EA63E77E1546E9B60047F97C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		EAE4F2F61546FB510070076E /* MCMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMetadata.h; sourceTree = "<group>"; };
+		EAE4F2F71546FB510070076E /* MCMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMetadata.m; sourceTree = "<group>"; };
+		EAE4F2FA1546FB820070076E /* MCEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEffect.h; sourceTree = "<group>"; };
+		EAE4F2FB1546FB820070076E /* MCEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCEffect.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +114,10 @@
 			children = (
 				EA63E7721546DA710047F97C /* MCColor.h */,
 				EA63E7731546DA720047F97C /* MCColor.m */,
+				EAE4F2FA1546FB820070076E /* MCEffect.h */,
+				EAE4F2FB1546FB820070076E /* MCEffect.m */,
+				EAE4F2F61546FB510070076E /* MCMetadata.h */,
+				EAE4F2F71546FB510070076E /* MCMetadata.m */,
 				EA63E76F1546D8E60047F97C /* MCEntity.h */,
 				EA63E7701546D8E60047F97C /* MCEntity.m */,
 				EA0F5EB11545D5EB00AD9AC7 /* MCAppDelegate.h */,
@@ -214,6 +224,8 @@
 				EA0F5ECC1545E70F00AD9AC7 /* MCPacket.m in Sources */,
 				EA63E7711546D8E60047F97C /* MCEntity.m in Sources */,
 				EA63E7741546DA720047F97C /* MCColor.m in Sources */,
+				EAE4F2F81546FB510070076E /* MCMetadata.m in Sources */,
+				EAE4F2FC1546FB820070076E /* MCEffect.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

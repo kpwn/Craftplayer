@@ -12,6 +12,7 @@
 {
     MCSocket* sock;
     unsigned char identifier;
+    unsigned char last;
     NSMutableData* buffer;
 }
 @property(retain) MCSocket* sock;
