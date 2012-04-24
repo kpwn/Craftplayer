@@ -7,7 +7,7 @@ Code on the GIT repo is under the GNU GPL license.
 ## Credits
 
 * **ac3xx:** Started on Obj-C port; Provided private repo; IRC support; Obj-C coding.
-* **qwertyoruiop:** original python lib "libcraftpacket" used to test Minecraft servers and Obj-C coding.
+* **qwertyoruiop:** original python lib "libcraftpacket" used to test Minecraft servers and Obj-C coding. [Also called kpwn on github]
 
 
 ## TODO
