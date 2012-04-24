@@ -267,10 +267,12 @@
                 case 0x08:
                     if ([buffer length] == 8) {
                         const unsigned char* data = [buffer bytes];
+                        int fsv=OSSwapInt32(*(int*)(data+4));
+                        int* fs=&fsv;
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithShort:OSSwapInt16(*(int*)data)], @"Health",
-                                                  [NSNumber numberWithFloat:OSSwapInt16(*(int*)(data+2))], @"Food",
-                                                  [NSNumber numberWithFloat:OSSwapInt32(*(int*)(data+4))], @"Food Saturation",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+2))], @"Food",
+                                                  [NSNumber numberWithFloat:*(float*)fs], @"Food Saturation",
                                                   @"HealthUpdate", @"PacketType",
                                                   nil];
                         [[self sock] packet:self gotParsed:infoDict];
@@ -485,14 +487,30 @@
                 case 0x0D:
                     if ([buffer length] == 41) {
                         const unsigned char* data = [buffer bytes];
+                        const uint64_t* sdata = (const uint64_t*)data;
+                        // I officially hate the LLVM compiler for having to do this.
+                        uint64_t xv = OSSwapInt64(*sdata++);
+                        uint64_t *x = &xv;
+                        uint64_t stancev = OSSwapInt64(*sdata++);
+                        uint64_t *stance = &stancev;
+                        uint64_t yv = OSSwapInt64(*sdata++);
+                        uint64_t *y = &yv;
+                        uint64_t zv = OSSwapInt64(*sdata++);
+                        uint64_t *z = &zv;
+                        const uint32_t* kdata = (const uint32_t*)sdata;
+                        uint64_t yawv = OSSwapInt32(*kdata++);
+                        uint64_t *yaw = &yawv;
+                        uint64_t pitchv = OSSwapInt32(*kdata++);
+                        uint64_t *pitch = &pitchv;
+                        NSLog(@"X: %@", [NSNumber numberWithDouble: *(double*)x]);
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)data))], @"X",
-                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+8)))], @"Stance",
-                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+16)))], @"Y",
-                                                  [NSNumber numberWithDouble:OSSwapInt64((*(uint64_t*)((char*)data+24)))], @"Z",
-                                                  [NSNumber numberWithFloat:OSSwapInt32((*(uint32_t*)((char*)data+32)))], @"Yaw",
-                                                  [NSNumber numberWithFloat:OSSwapInt32((*(uint32_t*)((char*)data+36)))], @"Pitch",
-                                                  [NSNumber numberWithBool:(*(BOOL*)(data+40))], @"On Ground",
+                                                  [NSNumber numberWithDouble:*(double*)x], @"X",
+                                                  [NSNumber numberWithDouble:*(double*)stance], @"Stance",
+                                                  [NSNumber numberWithDouble:*(double*)y], @"Y",
+                                                  [NSNumber numberWithDouble:*(double*)z], @"Z",
+                                                  [NSNumber numberWithFloat:*(float*)yaw], @"Yaw",
+                                                  [NSNumber numberWithFloat:*(float*)pitch], @"Pitch",
+                                                  [NSNumber numberWithBool:(*(BOOL*)(data+41))], @"On Ground",
                                                   @"PositionAndLook", @"PacketType",
                                                   nil];
                         [[self sock] packet:self gotParsed:infoDict];
