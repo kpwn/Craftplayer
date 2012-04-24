@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MCMetadata.h"
 #import "MCEffect.h"
+@class MCMetadata;
 @interface MCEntity : NSObject
 {
     unsigned int eid;

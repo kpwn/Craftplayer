@@ -9,6 +9,7 @@
 #import "MCPacket.h"
 #import "MCSocket.h"
 #import "MCString.h"
+#import "MCMetadata.h"
 @implementation MCPacket
 @synthesize sock,identifier,buffer;
 +(MCPacket*)packetWithID:(unsigned char)idt andSocket:(MCSocket*)sock
@@ -276,7 +277,7 @@
                         [[[self sock] inputStream] setDelegate:[self sock]];
                         [self release];
                         return;
-
+                        
                     }
                     break;
                 case 0x09:
@@ -319,7 +320,7 @@
                                                       ((*(char*)(data+5)) == 0) ? @"Survival" : @"Creative" , @"GameMode",
                                                       [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+6))], @"WorldHeight",
                                                       [MCString NSStringWithMinecraftString:((m_char_t*)(data+8))], @"WorldType",
-                                                    nil];
+                                                      nil];
                             [[[self sock] inputStream] setDelegate:[self sock]];
                             [[self sock] packet:self gotParsed:infoDict];
                             [self release];
@@ -328,10 +329,125 @@
                     }
                     break;
                 case 0x18:
-                    NSLog(@"TODO");
-                    [[[self sock] inputStream] setDelegate:[self sock]];
-                    [self release];
-                    return;
+                    if ([buffer length] == 20) {
+                        const unsigned char* data=[buffer bytes];
+                        NSString* type = @"Unknown";
+                        switch ((*(char*)(data+4))) {
+                            case 50:
+                                type = @"Creeper";
+                                break;
+                            case 51:
+                                type = @"Skeleton";
+                                break;
+                            case 52:
+                                type = @"Spider";
+                                break;
+                            case 53:
+                                type = @"Giant Zombie";
+                                break;
+                            case 54:
+                                type = @"Zombie";
+                                break;
+                            case 55:
+                                type = @"Slime";
+                                break;
+                            case 56:
+                                type = @"Ghast";
+                                break;
+                            case 57:
+                                type = @"Zombie Pigman";
+                                break;
+                            case 58:
+                                type = @"Enderman";
+                                break;
+                            case 59:
+                                type = @"Cave Spider";
+                                break;
+                            case 60:
+                                type = @"Silverfish";
+                                break;
+                            case 61:
+                                type = @"Blaze";
+                                break;
+                            case 62:
+                                type = @"Magma Cube";
+                                break;
+                            case 63:
+                                type = @"Ender Dragon";
+                                break;
+                            case 90:
+                                type = @"Pig";
+                                break;
+                            case 91:
+                                type = @"Sheep";
+                                break;
+                            case 92:
+                                type = @"Cow";
+                                break;
+                            case 93:
+                                type = @"Chicken";
+                                break;
+                            case 94:
+                                type = @"Squid";
+                                break;
+                            case 95:
+                                type = @"Wolf";
+                                break;
+                            case 96:
+                                type = @"Mooshroom";
+                                break;
+                            case 97:
+                                type = @"Snowman";
+                                break;
+                            case 98:
+                                type = @"Ocelot";
+                                break;
+                            case 99:
+                                type = @"Iron Golem";
+                                break;
+                            case 120:
+                                type = @"Villager";
+                                break;
+                            default:
+                                break;
+                        }
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        int x = (OSSwapInt32(*(int*)(data+5 )));
+                        int y = (OSSwapInt32(*(int*)(data+9 )));
+                        int z = (OSSwapInt32(*(int*)(data+13)));
+                        MCMetadata* metadata = [[MCMetadata metadataWithSocket:[self sock] andEntity:[MCEntity entityWithIdentifier:OSSwapInt32(*(int*)data)] andType:type] retain];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  @"MobSpawn", @"PacketType", 
+                                                  [NSNumber numberWithInt:OSSwapInt32(*(int*)data)], @"EntityID",
+                                                  [NSNumber numberWithDouble:(double)x/32.0], @"X",
+                                                  [NSNumber numberWithDouble:(double)y/32.0], @"Y",
+                                                  [NSNumber numberWithDouble:(double)z/32.0], @"Z",
+                                                  [NSNumber numberWithChar:(*((char*)(data+17)))], @"Yaw",
+                                                  [NSNumber numberWithChar:(*((char*)(data+18)))], @"Pitch",
+                                                  [NSNumber numberWithChar:(*((char*)(data+19)))], @"Head Yaw",
+                                                  type, @"Type",
+                                                  metadata, @"Metadata",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x1C:
+                    if ([buffer length] == 10) {
+                        const unsigned char* data = [buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+4))], @"VelocityX",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+6))], @"VelocityY",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+8))], @"VelocityZ",
+                                                  @"EntityVelocity", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
                     break;
                 case 0x00:
                     if ([buffer length] == 4) {
@@ -349,6 +465,10 @@
                     [self release];
                     break;
             }
+            break;
+        default:
+            [[self sock] stream:theStream handleEvent:streamEvent];
+            break;
     }
 }
 - (oneway void)dealloc
