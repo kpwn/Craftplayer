@@ -16,7 +16,8 @@
     auth = [[MCAuth authWithUsername:@"20emma2" andPassword:@"20emma2"] retain];
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"127.0.0.1", 13371, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"127.0.0.1", 13371
+                                       , &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
     [inputStream setDelegate:self];
@@ -30,6 +31,10 @@
     [outputStream write:&pckid maxLength:1];
     [outputStream write:(unsigned char*)_handshake_msg maxLength:m_char_t_sizeof(_handshake_msg)];
     free(_handshake_msg);
+}
+- (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict
+{
+    NSLog(@"Got packet! %@", infoDict);
 }
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {

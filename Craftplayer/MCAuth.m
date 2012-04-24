@@ -39,9 +39,12 @@
 }
 -(BOOL)joinToServer:(NSString*)token
 {
+    if ([token isEqualToString:@"-"] || [token isEqualToString:@"+"]) {
+        NSLog(@"Offline mode server. [%@]", token);
+        return YES;
+    }
     NSDictionary* logData=[self login];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"http://session.minecraft.net/game/joinserver.jsp?user=%@&sessionId=%@&serverId=%@", [self username], [logData objectForKey:kMCAuthToken], token]]];
-    NSLog([NSString stringWithFormat:@"http://session.minecraft.net/game/joinserver.jsp?user=%@&sessionId=%@&serverId=%@", [self username], [logData objectForKey:kMCAuthToken], token]);
     NSString *serverResponse = [[NSString alloc] initWithData:[NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil] encoding:NSUTF8StringEncoding];
     if ([serverResponse isEqualToString:@"OK"]) {
         return YES;

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MCAuth.h"
+@class MCPacket;
 @interface MCSocket : NSObject <NSStreamDelegate>
 {
     NSInputStream *inputStream;
@@ -17,4 +18,6 @@
 @property(readonly) NSInputStream *inputStream;
 @property(readonly) NSOutputStream *outputStream;
 @property(readonly) MCAuth* auth;
+- (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
+- (void)connect;
 @end

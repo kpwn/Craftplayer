@@ -11,11 +11,11 @@
 @interface MCPacket : NSObject <NSStreamDelegate>
 {
     MCSocket* sock;
-    char identifier;
+    unsigned char identifier;
     NSMutableData* buffer;
 }
 @property(retain) MCSocket* sock;
-@property(assign) char identifier;
+@property(assign) unsigned char identifier;
 @property(retain) NSMutableData* buffer;
-+(MCPacket*)packetWithID:(unsigned short)idt andSocket:(MCSocket*)sock;
++(MCPacket*)packetWithID:(unsigned char)idt andSocket:(MCSocket*)sock;
 @end

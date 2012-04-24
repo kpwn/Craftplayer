@@ -11,13 +11,13 @@
 #import "MCString.h"
 @implementation MCPacket
 @synthesize sock,identifier,buffer;
-+(MCPacket*)packetWithID:(unsigned short)idt andSocket:(MCSocket*)sock
++(MCPacket*)packetWithID:(unsigned char)idt andSocket:(MCSocket*)sock
 {
     MCPacket* kret=[MCPacket new];
     [[sock inputStream] setDelegate:kret];
     [kret setIdentifier:idt];
     [kret setSock:sock];
-    [kret setBuffer:[[NSMutableData new] autorelease]];
+    [kret setBuffer:[NSMutableData new]];
     NSLog(@"Packet: %02X", idt);
     return kret;
 }
@@ -29,7 +29,7 @@
             [buffer appendBytes:&byte length:1];
             switch (identifier) {
                 case 0x02:
-                    if ([buffer length]>2) {
+                    if ([buffer length]>=2) {
                         const unsigned char* data=[buffer bytes];
                         short len = flipshort(*(short*)data);
                         if ([buffer length] == (len*2 + 2))
@@ -64,30 +64,132 @@
                         if ([buffer length] == (len*2 + 8 + 2 + 4 + 4 + 1))
                         {
                             NSLog(@"Connected!");
+                            int worldtype=(OSSwapInt32((*(int*)(data+12+OSSwapInt16(*(short*)(data+6))*2))));
+                            NSString* type = @"Unknown";
+                            if (worldtype == -1) {
+                                type = @"The Nether";
+                            } else if (worldtype == 0) {
+                                type = @"Overworld";
+                            } else if (worldtype == 1) {
+                                type = @"The End";
+                            }
+                            char difficulty=(*(char*)(data+16+OSSwapInt16(*(short*)(data+6))*2));
+                            NSString* diff = @"Unknown";
+                            switch (difficulty) {
+                                case 0:
+                                    diff = @"Peaceful";
+                                    break;
+                                case 1:
+                                    diff = @"Easy";
+                                    break;
+                                case 2:
+                                    diff = @"Normal";
+                                    break;
+                                case 3:
+                                    diff = @"Hard";
+                                    break;
+                                default:
+                                    break;
+                            }
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:buffer, @"Data", [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID", [MCString NSStringWithMinecraftString:(m_char_t*)(data+6)], @"WorldType", (OSSwapInt32((*(int*)(data+8+OSSwapInt16(*(short*)(data+6))*2)))) == 0 ? @"Survival" : @"Creative", @"ServerMode", @"Login", @"PacketType", type, @"Dimension", diff, @"Difficulty", [NSNumber numberWithChar:(*(char*)(data+18+OSSwapInt16(*(short*)(data+6))*2))], @"MaxPlayers", nil];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
+                case 0xFA:
+                    if ([buffer length]>2) {
+                        const unsigned char* data=[buffer bytes];
+                        short len = flipshort(*(short*)data);
+                        if ([buffer length] > (len*2 + 4))
+                        {
+                            short lenk = flipshort(*(short*)(data+(len*2 + 2)));
+                            if ([buffer length] == (len*2 + 2 + lenk + 2))
+                            {
+                                NSString* channel = [MCString NSStringWithMinecraftString:(m_char_t*)(data)];
+                                NSData* kdata = [NSData dataWithBytes:(data+2+len*2+2) length:lenk];
+                                NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                          channel, @"Channel",
+                                                          kdata, @"Data",
+                                                          @"PluginMessage", @"PacketType",
+                                                          nil];
+                                [[[self sock] inputStream] setDelegate:[self sock]];
+                                [[self sock] packet:self gotParsed:infoDict];
+                                [self release];
+                            }
+                        }
+                    }
+                    break;
+                case 0x06:
+                    if ([buffer length]==12) {
+                        const unsigned char* data=[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"X",
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)(data+4)))], @"Y",
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)(data+8)))], @"Z",
+                                                  @"SpawnPosition", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0xCA:
+                    if ([buffer length] == 4) {
+                        const unsigned char* data=[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithChar:*(char*)(data)], @"Invulnerability",
+                                                  [NSNumber numberWithChar:*(char*)(data+1)], @"IsFlying",
+                                                  [NSNumber numberWithChar:*(char*)(data+2)], @"CanFly",
+                                                  [NSNumber numberWithChar:*(char*)(data+3)], @"Instabreak",
+                                                  @"PlayerAbilities", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x04:
+                    if ([buffer length] == 8) {
+                        char* time=(char*)[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithLongLong:OSSwapInt64(*(uint64_t*)(time))], @"Time",
+                                                  @"TimeUpdate", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x03:
+                    if ([buffer length] >= 2) {
+                        const unsigned char* data=[buffer bytes];
+                        short len = flipshort(*(short*)data);
+                        if ([buffer length] == (len*2 + 2))
+                        {
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [MCString NSStringWithMinecraftString:(m_char_t *)data], @"Message",
+                                                      @"ChatMessage", @"PacketType",
+                                                      nil];
+                            [[self sock] packet:self gotParsed:infoDict];
                             [[[self sock] inputStream] setDelegate:[self sock]];
                             [self release];
                             return;
                         }
                     }
                     break;
-                case 0x06:
-                    if ([buffer length]>12) {
-                        const unsigned char* data=[buffer bytes];
-                        NSLog(@"Spawn Point is at: X: %d Y: %d Z: %d", OSSwapInt32((*(int*)data)), OSSwapInt32((*(int*)(data+4))), OSSwapInt32((*(int*)(data+8))));
-                        [[[self sock] inputStream] setDelegate:[self sock]];
-                        [self release];
-                        return;
-                    }
-                    break;
                 case 0x00:
-                    if ([buffer length]>4) {
-                        const unsigned char* data=[buffer bytes];
-                        char x = 0x00;
-                        [[[self sock] outputStream] write:(unsigned char*)&x maxLength:1];
-                        [[[self sock] outputStream] write:(unsigned char*)data maxLength:4];
-                        [[[self sock] inputStream] setDelegate:[self sock]];
-                        [self release];
-                        return;
+                    if ([buffer length] == 4) {
+                        char* retpacket=malloc(5);
+                        bzero(retpacket, 5);
+                        memcpy(retpacket+1, [buffer bytes], 4);
+                        [[[self sock] outputStream] write:(unsigned char*)retpacket maxLength:5];
+                        free(retpacket);
                     }
                     break;
                 default:
