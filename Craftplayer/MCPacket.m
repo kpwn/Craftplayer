@@ -91,7 +91,15 @@
                                 default:
                                     break;
                             }
-                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:buffer, @"Data", [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID", [MCString NSStringWithMinecraftString:(m_char_t*)(data+6)], @"WorldType", (OSSwapInt32((*(int*)(data+8+OSSwapInt16(*(short*)(data+6))*2)))) == 0 ? @"Survival" : @"Creative", @"ServerMode", @"Login", @"PacketType", type, @"Dimension", diff, @"Difficulty", [NSNumber numberWithChar:(*(char*)(data+18+OSSwapInt16(*(short*)(data+6))*2))], @"MaxPlayers", nil];
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID",
+                                                      [MCString NSStringWithMinecraftString:(m_char_t*)(data+6)], @"WorldType",
+                                                      (OSSwapInt32((*(int*)(data+8+OSSwapInt16(*(short*)(data+6))*2)))) == 0 ? @"Survival" : @"Creative", @"GameMode",
+                                                      @"Login", @"PacketType",
+                                                      type, @"Dimension",
+                                                      diff, @"Difficulty",
+                                                      [NSNumber numberWithChar:(*(char*)(data+18+OSSwapInt16(*(short*)(data+6))*2))], @"MaxPlayers",
+                                                      nil];
                             [[[self sock] inputStream] setDelegate:[self sock]];
                             [[self sock] packet:self gotParsed:infoDict];
                             [self release];
@@ -239,8 +247,91 @@
                         [self release];
                         return;
                     }
+                case 0x05:
+                    if ([buffer length] == 10) {
+                        const unsigned char* data = [buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+4))], @"Slot",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+6))], @"ItemID",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+8))], @"Damage",
+                                                  @"EntityEquipement", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x08:
+                    if ([buffer length] == 8) {
+                        const unsigned char* data = [buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)data)], @"Health",
+                                                  [NSNumber numberWithFloat:OSSwapInt16(*(int*)(data+2))], @"Food",
+                                                  [NSNumber numberWithFloat:OSSwapInt32(*(int*)(data+4))], @"Food Saturation",
+                                                  @"HealthUpdate", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+
+                    }
+                    break;
+                case 0x09:
+                    if ([buffer length]>10) {
+                        const unsigned char* data=[buffer bytes];
+                        short len = flipshort(*(short*)(data+8));
+                        if ([buffer length] == (len*2+10))
+                        {
+                            int worldtype=OSSwapInt32(*(int*)data);
+                            NSString* type = @"Unknown";
+                            if (worldtype == -1) {
+                                type = @"The Nether";
+                            } else if (worldtype == 0) {
+                                type = @"Overworld";
+                            } else if (worldtype == 1) {
+                                type = @"The End";
+                            }
+                            char difficulty=(*(char*)(data+4));
+                            NSString* diff = @"Unknown";
+                            switch (difficulty) {
+                                case 0:
+                                    diff = @"Peaceful";
+                                    break;
+                                case 1:
+                                    diff = @"Easy";
+                                    break;
+                                case 2:
+                                    diff = @"Normal";
+                                    break;
+                                case 3:
+                                    diff = @"Hard";
+                                    break;
+                                default:
+                                    break;
+                            }
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      @"Respawn", @"PacketType",
+                                                      type, @"Dimension",
+                                                      diff, @"Difficulty",
+                                                      ((*(char*)(data+5)) == 0) ? @"Survival" : @"Creative" , @"GameMode",
+                                                      [NSNumber numberWithShort:OSSwapInt16(*(short*)(data+6))], @"WorldHeight",
+                                                      [MCString NSStringWithMinecraftString:((m_char_t*)(data+8))], @"WorldType",
+                                                    nil];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
                 case 0x18:
-                    
+                    NSLog(@"TODO");
+                    [[[self sock] inputStream] setDelegate:[self sock]];
+                    [self release];
+                    return;
                     break;
                 case 0x00:
                     if ([buffer length] == 4) {

@@ -10,7 +10,7 @@
 #import "MCString.h"
 #import "MCPacket.h"
 @implementation MCSocket
-@synthesize inputStream, outputStream, auth;
+@synthesize inputStream, outputStream, auth, player;
 -(void)connect
 {
     auth = [[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"] retain];
@@ -34,6 +34,9 @@
 }
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict
 {
+    if ([[infoDict objectForKey:@"PacketType"] isEqualToString:@"Login"]) {
+        player = [MCEntity entityWithIdentifier:[[infoDict objectForKey:@"EntityID"] intValue]];
+    }
     NSLog(@"Got packet! %@", infoDict);
 }
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
