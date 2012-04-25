@@ -519,6 +519,31 @@
                         return;
                     }
                     break;
+                case 0x15:
+                    if ([buffer length] == 24) {
+                        const unsigned char* data=[buffer bytes];
+                        int x=OSSwapInt32(*(int*)(data+9));
+                        int y=OSSwapInt32(*(int*)(data+13));
+                        int z=OSSwapInt32(*(int*)(data+17));
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32(*(int*)data)], @"EntityID",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+4))], @"Item",
+                                                  [NSNumber numberWithChar:(*(char*)(data+6))], @"Count",
+                                                  [NSNumber numberWithShort:OSSwapInt16(*(int*)(data+7))], @"Damage",
+                                                  [NSNumber numberWithDouble:(double)x/32.0], @"X",
+                                                  [NSNumber numberWithDouble:(double)y/32.0], @"Y",
+                                                  [NSNumber numberWithDouble:(double)z/32.0], @"Z",
+                                                  [NSNumber numberWithChar:*(char*)(data+21)], @"Rotation",
+                                                  [NSNumber numberWithChar:*(char*)(data+22)], @"Pitch",
+                                                  [NSNumber numberWithChar:*(char*)(data+23)], @"Roll",
+                                                  @"SpawnDroppedItem", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
                 case 0x14:
                     if ([buffer length] > 6) {
                         const unsigned char* data=[buffer bytes];
