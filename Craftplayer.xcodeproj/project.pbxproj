@@ -26,6 +26,10 @@
 		EA63E77F1546E9B60047F97C /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA63E77E1546E9B60047F97C /* CoreText.framework */; };
 		EAE4F2F81546FB510070076E /* MCMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F2F71546FB510070076E /* MCMetadata.m */; };
 		EAE4F2FC1546FB820070076E /* MCEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F2FB1546FB820070076E /* MCEffect.m */; };
+		EAE4F2FF154874120070076E /* MCSlot.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F2FE154874120070076E /* MCSlot.m */; };
+		EAE4F30215487C390070076E /* MCWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F30115487C390070076E /* MCWindow.m */; };
+		EAE4F304154890F70070076E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE4F303154890F70070076E /* libz.dylib */; };
+		EAE4F3071548922A0070076E /* NSData+UserAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F3061548922A0070076E /* NSData+UserAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +66,13 @@
 		EAE4F2F71546FB510070076E /* MCMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMetadata.m; sourceTree = "<group>"; };
 		EAE4F2FA1546FB820070076E /* MCEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEffect.h; sourceTree = "<group>"; };
 		EAE4F2FB1546FB820070076E /* MCEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCEffect.m; sourceTree = "<group>"; };
+		EAE4F2FD154874120070076E /* MCSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSlot.h; sourceTree = "<group>"; };
+		EAE4F2FE154874120070076E /* MCSlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCSlot.m; sourceTree = "<group>"; };
+		EAE4F30015487C390070076E /* MCWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWindow.h; sourceTree = "<group>"; };
+		EAE4F30115487C390070076E /* MCWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCWindow.m; sourceTree = "<group>"; };
+		EAE4F303154890F70070076E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		EAE4F3051548922A0070076E /* NSData+UserAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+UserAdditions.h"; sourceTree = "<group>"; };
+		EAE4F3061548922A0070076E /* NSData+UserAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+UserAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EA63E77F1546E9B60047F97C /* CoreText.framework in Frameworks */,
+				EAE4F304154890F70070076E /* libz.dylib in Frameworks */,
 				EA0F5ECF1545FB1400AD9AC7 /* libiconv.dylib in Frameworks */,
 				EA0F5EA31545D5EB00AD9AC7 /* UIKit.framework in Frameworks */,
 				EA0F5EA51545D5EB00AD9AC7 /* Foundation.framework in Frameworks */,
@@ -100,6 +112,7 @@
 		EA0F5EA11545D5EB00AD9AC7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EAE4F303154890F70070076E /* libz.dylib */,
 				EA63E77E1546E9B60047F97C /* CoreText.framework */,
 				EA0F5ECE1545FB1400AD9AC7 /* libiconv.dylib */,
 				EA0F5EA21545D5EB00AD9AC7 /* UIKit.framework */,
@@ -127,8 +140,14 @@
 				EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */,
 				EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */,
 				EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */,
+				EAE4F2FD154874120070076E /* MCSlot.h */,
+				EAE4F2FE154874120070076E /* MCSlot.m */,
+				EAE4F3051548922A0070076E /* NSData+UserAdditions.h */,
+				EAE4F3061548922A0070076E /* NSData+UserAdditions.m */,
 				EA0F5ECA1545E70F00AD9AC7 /* MCPacket.h */,
 				EA0F5ECB1545E70F00AD9AC7 /* MCPacket.m */,
+				EAE4F30015487C390070076E /* MCWindow.h */,
+				EAE4F30115487C390070076E /* MCWindow.m */,
 				EA0F5EBF1545D62A00AD9AC7 /* MCPlayer.h */,
 				EA0F5EC01545D62A00AD9AC7 /* MCPlayer.m */,
 				EA0F5EC41545D64700AD9AC7 /* MCAuth.h */,
@@ -226,6 +245,9 @@
 				EA63E7741546DA720047F97C /* MCColor.m in Sources */,
 				EAE4F2F81546FB510070076E /* MCMetadata.m in Sources */,
 				EAE4F2FC1546FB820070076E /* MCEffect.m in Sources */,
+				EAE4F2FF154874120070076E /* MCSlot.m in Sources */,
+				EAE4F30215487C390070076E /* MCWindow.m in Sources */,
+				EAE4F3071548922A0070076E /* NSData+UserAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

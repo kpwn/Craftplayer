@@ -36,6 +36,7 @@
             [buffer appendBytes:&byte length:1];
             const unsigned char* data = [buffer bytes];
             if (*((signed char*)data)==127) {
+                [oldDelegate metadata:(MCMetadata*)self hasFinishedParsing:metadata];
                 [stream setDelegate:oldDelegate];
                 [buffer release];
                 [self setOldDelegate:nil];

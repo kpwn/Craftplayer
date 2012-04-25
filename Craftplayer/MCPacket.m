@@ -10,6 +10,8 @@
 #import "MCSocket.h"
 #import "MCString.h"
 #import "MCMetadata.h"
+#import "MCSlot.h"
+#import "MCWindow.h"
 @implementation MCPacket
 @synthesize sock,identifier,buffer;
 +(MCPacket*)packetWithID:(unsigned char)idt andSocket:(MCSocket*)sock
@@ -146,48 +148,77 @@
                         return;
                     }
                     break;
-                case 0x68:
-                    if ([buffer length]>=93) {
+                case 0x67:
+                    if ([buffer length]==3) {
                         const unsigned char* data=[buffer bytes];
-                        NSNumber *count = [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))];
-                        NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                                  [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
-                                                  count, @"Count",
-                                                  
-                                                  @"WindowItems", @"PacketType",
-                                                  nil];
-                        for (int i = 0; i < [count intValue]; i++) {
-                            NSNumber *a = [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+(i)+2)))];
-                            NSLog(@"%@", a);
-                            if ([a intValue]==-1) {
-                                NSLog(@"NOTHING THERE");
-                                [infoDict setObject:a forKey:[NSString stringWithFormat:@"Item%i", i]];
-                            } else {
-                                NSLog(@"BLARG");
-                                
-                            }
-                        }
                         [[[self sock] inputStream] setDelegate:[self sock]];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  @"SetSlot", @"PacketType",
+                                                  [MCWindow windowWithID:*(char*)(data)], @"Window",
+                                                  [MCSlot slotWithWindow:[MCWindow windowWithID:*(char*)(data)] atPosition:(OSSwapInt16((*(short*)(data+1))) == 65535) ? 0 : OSSwapInt16((*(short*)(data+1))) withSocket:[self sock]], @"Slot",
+                                                  nil];
                         [[self sock] packet:self gotParsed:infoDict];
                         [self release];
                         return;
                     }
                     break;
-                case 0x67:
-                    if ([buffer length]>=2) {
-                         const unsigned char* data=[buffer bytes];
-                        NSLog(@"Window ID: %@", [NSNumber numberWithChar:*(char*)(data)]);
-                        NSLog(@"Slot: %@", [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))]);/*
-                        if ([buffer length]-2==0)
-                            //NSLog(@"Meh. 0x67 has no slot data.");
-                        else if ([buffer length]-2==1)
-                            //NSLog(@"Ooh shiny. %@", [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+2)))]);
-                        else
-                            //NSLog(@"OMG HAXXOR. So, basically, there's slot data and NOBODY TOLD ME.");*/
-                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                  @"SetSlot", @"PacketType",
-                                                  nil];
+                case 0x65:;
+                    NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithChar:byte], @"Identifier",
+                                                     @"CloseWindow", @"PacketType",
+                                                     nil];
+                    [[self sock] packet:self gotParsed:infoDict];
+                    [[[self sock] inputStream] setDelegate:[self sock]];
+                    [self release];
+                    return;
+                    break;
+                case 0x64:
+                    if ([buffer length]>=4) {
+                        const unsigned char* data=[buffer bytes];
+                        if ([buffer length] == 5+OSSwapInt16(*(short*)(data+2))) {
+                            char wid = *(char*)data;
+                            char ty = *(char*)(data+1);
+                            char cnt = *(char*)(4+OSSwapInt16(*(short*)(data+2)));
+                            NSString* title = [MCString NSStringWithMinecraftString:(m_char_t*)(data+2)];
+                            MCWindow* kw=[MCWindow windowWithID:*(char*)wid];
+                            [kw setWid:wid];
+                            [kw setType:ty];
+                            [kw setSize:cnt];
+                            NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                             kw, @"Window",
+                                                             [NSNumber numberWithChar:wid], @"Identifier",
+                                                             [NSNumber numberWithChar:ty], @"Type",
+                                                             [NSNumber numberWithChar:cnt], @"Count",
+                                                             title, @"Title",
+                                                             @"OpenWindow", @"PacketType",
+                                                             nil];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
+                case 0x68:
+                    if ([buffer length]==3) {
+                        const unsigned char* data=[buffer bytes];
+                        NSNumber *count = [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))];
+                        NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                         [MCWindow windowWithID:*(char*)(data)], @"Window",
+                                                         count, @"Count",
+                                                         @"WindowItems", @"PacketType",
+                                                         nil];
                         [[[self sock] inputStream] setDelegate:[self sock]];
+                        int elements = [count intValue];
+                        int p = 0;
+                        MCWindow* wn = [MCWindow windowWithID:*(char*)(data)];
+                        while (p++ != elements) {
+                            [[wn items] addObject:[NSNull null]];
+                        }
+                        while (elements--) {
+                            NSLog(@"%d", elements);
+                            [MCSlot slotWithWindow:wn atPosition:elements withSocket:[self sock]];
+                        }
                         [[self sock] packet:self gotParsed:infoDict];
                         [self release];
                         return;
@@ -215,13 +246,14 @@
                                                   [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
                                                   [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))], @"ActionNumber",
                                                   [NSNumber numberWithBool:(BOOL)(data+3)], @"Accepted",
-                                                  @"WindowPropertyUpdate", @"PacketType",
+                                                  @"AcceptTransaction", @"PacketType",
                                                   nil];
                         [[[self sock] inputStream] setDelegate:[self sock]];
                         [[self sock] packet:self gotParsed:infoDict];
                         [self release];
                         return;
                     }
+                    break;
                 case 0xCA:
                     if ([buffer length] == 4) {
                         const unsigned char* data=[buffer bytes];

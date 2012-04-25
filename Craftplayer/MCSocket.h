@@ -21,6 +21,7 @@
 @property(readonly) NSOutputStream *outputStream;
 @property(readonly) MCAuth* auth;
 @property(readonly) MCEntity* player;
+- (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray;
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
 - (void)connect;
 @end

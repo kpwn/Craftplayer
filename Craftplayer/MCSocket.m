@@ -9,6 +9,7 @@
 #import "MCSocket.h"
 #import "MCString.h"
 #import "MCPacket.h"
+#import "MCWindow.h"
 @implementation MCSocket
 @synthesize inputStream, outputStream, auth, player;
 -(void)connect
@@ -16,7 +17,7 @@
     auth = [[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"] retain];
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"lmkcraft.com", 20000
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"127.0.0.1", 13371
                                        , &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
@@ -31,6 +32,10 @@
     [outputStream write:&pckid maxLength:1];
     [outputStream write:(unsigned char*)_handshake_msg maxLength:m_char_t_sizeof(_handshake_msg)];
     free(_handshake_msg);
+}
+- (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray
+{
+    NSLog(@"Got metadata! %@", infoArray);
 }
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict
 {
