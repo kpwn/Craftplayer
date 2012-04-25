@@ -195,7 +195,6 @@
                     break;
                 case 0x69:
                     if ([buffer length]==5) {
-                        NSLog(@"0x69");
                         const unsigned char* data=[buffer bytes];
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
@@ -207,9 +206,22 @@
                         [[self sock] packet:self gotParsed:infoDict];
                         [self release];
                         return;
-                        
                     }
                     break;
+                case 0x6A:
+                    if ([buffer length]==4) {
+                        const unsigned char* data=[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
+                                                  [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))], @"ActionNumber",
+                                                  [NSNumber numberWithBool:(BOOL)(data+3)], @"Accepted",
+                                                  @"WindowPropertyUpdate", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
                 case 0xCA:
                     if ([buffer length] == 4) {
                         const unsigned char* data=[buffer bytes];
