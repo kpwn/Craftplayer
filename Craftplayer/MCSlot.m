@@ -77,7 +77,7 @@
                         {
                             [slotData setObject:[NSNumber numberWithChar:(*(char*)(data+2))] forKey:@"Count"];
                             [slotData setObject:[NSNumber numberWithShort:OSSwapInt16(*(short*)(data+3))] forKey:@"Damage"];
-                            [slotData setObject:[[NSData dataWithBytes:(char*)(data+7) length:len] gzipDeflate] forKey:@"EnchantmentData"];
+                            [slotData setObject:[[NSData dataWithBytes:(char*)(data+7) length:len] gzipInflate] forKey:@"EnchantmentData"];
                             goto end;
                         }
                     } else {
