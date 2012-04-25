@@ -146,6 +146,33 @@
                         return;
                     }
                     break;
+                case 0x68:
+                    if ([buffer length]>=93) {
+                        const unsigned char* data=[buffer bytes];
+                        NSNumber *count = [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))];
+                        NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
+                                                  count, @"Count",
+                                                  
+                                                  @"WindowItems", @"PacketType",
+                                                  nil];
+                        for (int i = 0; i < [count intValue]; i++) {
+                            NSNumber *a = [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+(i)+2)))];
+                            NSLog(@"%@", a);
+                            if ([a intValue]==-1) {
+                                NSLog(@"NOTHING THERE");
+                                [infoDict setObject:a forKey:[NSString stringWithFormat:@"Item%i", i]];
+                            } else {
+                                NSLog(@"BLARG");
+                                
+                            }
+                        }
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
                 case 0xCA:
                     if ([buffer length] == 4) {
                         const unsigned char* data=[buffer bytes];
@@ -175,6 +202,24 @@
                         return;
                     }
                     break;
+                case 0x11:
+                    if ([buffer length] == 14) {
+                        const unsigned char* data=[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)data))], @"EntityID",
+                                                  [NSNumber numberWithChar:*(char*)(data+4)], @"Unknown1",
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)(data+5)))], @"X",
+                                                  [NSNumber numberWithChar:*(char*)(data+9)], @"Y",
+                                                  [NSNumber numberWithInt:OSSwapInt32((*(int*)(data+13)))], @"Z",
+                                                  @"UseBed", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
+                    
                 case 0x03:
                     if ([buffer length] >= 2) {
                         const unsigned char* data=[buffer bytes];
