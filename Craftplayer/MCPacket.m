@@ -173,6 +173,43 @@
                         return;
                     }
                     break;
+                case 0x67:
+                    if ([buffer length]>=2) {
+                         const unsigned char* data=[buffer bytes];
+                        NSLog(@"Window ID: %@", [NSNumber numberWithChar:*(char*)(data)]);
+                        NSLog(@"Slot: %@", [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))]);/*
+                        if ([buffer length]-2==0)
+                            //NSLog(@"Meh. 0x67 has no slot data.");
+                        else if ([buffer length]-2==1)
+                            //NSLog(@"Ooh shiny. %@", [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+2)))]);
+                        else
+                            //NSLog(@"OMG HAXXOR. So, basically, there's slot data and NOBODY TOLD ME.");*/
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  @"SetSlot", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x69:
+                    if ([buffer length]==5) {
+                        NSLog(@"0x69");
+                        const unsigned char* data=[buffer bytes];
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithChar:*(char*)(data)], @"WindowID",
+                                                  [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+1)))], @"Property",
+                                                  [NSNumber numberWithShort:OSSwapInt16((*(int*)(data+3)))], @"Value",
+                                                  @"WindowPropertyUpdate", @"PacketType",
+                                                  nil];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [self release];
+                        return;
+                        
+                    }
+                    break;
                 case 0xCA:
                     if ([buffer length] == 4) {
                         const unsigned char* data=[buffer bytes];
