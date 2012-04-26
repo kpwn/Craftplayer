@@ -11,13 +11,28 @@
 #import "MCPacket.h"
 #import "MCWindow.h"
 @implementation MCSocket
-@synthesize inputStream, outputStream, auth, player;
+@synthesize inputStream, outputStream, auth, player, server;
+-(MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth
+{
+    [self setAuth:iauth];
+    [self setServer:iserver];
+    return self;
+}
 -(void)connect
 {
-    auth = [[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"] retain];
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)@"127.0.0.1", 13371
+    NSArray* pieces = [server componentsSeparatedByString:@":"];
+    NSString* target = @"";
+    int port = 25565;
+    if ([pieces count] == 1) {
+        target = [pieces objectAtIndex:0];
+    }
+    else if ([pieces count] > 1) {
+        target = [pieces objectAtIndex:0];
+        port = [[pieces objectAtIndex:1] intValue];
+    }
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (CFStringRef)target, port
                                        , &readStream, &writeStream);
     inputStream = (NSInputStream *)readStream;
     outputStream = (NSOutputStream *)writeStream;
@@ -32,6 +47,10 @@
     [outputStream write:&pckid maxLength:1];
     [outputStream write:(unsigned char*)_handshake_msg maxLength:m_char_t_sizeof(_handshake_msg)];
     free(_handshake_msg);
+}
+- (void)slot:(MCMetadata*)slot hasFinishedParsing:(NSDictionary*)infoDict
+{
+    NSLog(@"Got slot! %@", infoDict);
 }
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray
 {
@@ -59,5 +78,10 @@
             [MCPacket packetWithID:packetIdentifier andSocket:self]; 
             break;
     }
+}
+-(void)dealloc
+{
+    [self setAuth:nil];
+    [super dealloc];
 }
 @end

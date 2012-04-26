@@ -12,10 +12,14 @@
 @synthesize oldDelegate, stream, metadata, etype, entity;
 +(MCMetadata*)metadataWithSocket:(MCSocket*)socket andEntity:(MCEntity*)aentity andType:(NSString *)etype
 {
-    id ret = [MCMetadata new];
+    id ret = [aentity metadata];
+    if (!ret) {
+        ret = [MCMetadata new];
+        [ret setEtype:etype];
+    }
+    [aentity setMetadata:ret];
     [ret setStream:[socket inputStream]];
     [ret setOldDelegate:[[socket inputStream] delegate]];
-    [ret setEtype:etype];
     [[socket inputStream] setDelegate:ret];
     return ret;
 }
@@ -39,8 +43,8 @@
                 [oldDelegate metadata:(MCMetadata*)self hasFinishedParsing:metadata];
                 [stream setDelegate:oldDelegate];
                 [buffer release];
+                buffer=nil;
                 [self setOldDelegate:nil];
-                [self autorelease];
                 [entity setMetadata:self];
                 [self setEntity:nil];
                 return;

@@ -29,11 +29,8 @@
         ret = [MCSlot new];
         [ret setWindow:awindow];
         [ret setIndex:aindex];
-        @try
-        {
-        [[awindow items] removeObjectAtIndex:aindex];
-        }
-        @catch(id e) {}
+        if ([[awindow items] count] > aindex)
+            [[awindow items] removeObjectAtIndex:aindex];
         [[awindow items] insertObject:ret atIndex:aindex];
     }
     [ret setSocket:asocket];
@@ -94,7 +91,7 @@
     }
     return;
 end:
-    NSLog(@"got %@", slotData);
+    [[self socket] slot:self hasFinishedParsing:slotData];
     [theStream setDelegate:oldDelegate];
     [buffer release];
     buffer=nil;

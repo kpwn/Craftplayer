@@ -9,19 +9,26 @@
 #import <Foundation/Foundation.h>
 #import "MCAuth.h"
 #import "MCEntity.h"
+#import "MCSlot.h"
 @class MCPacket;
+@class MCSlot;
+@class MCMetadata;
 @interface MCSocket : NSObject <NSStreamDelegate>
 {
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
     MCAuth* auth;
     MCEntity* player;
+    NSString* server;
 }
 @property(readonly) NSInputStream *inputStream;
 @property(readonly) NSOutputStream *outputStream;
-@property(readonly) MCAuth* auth;
+@property(retain) MCAuth* auth;
+@property(retain) NSString* server;
 @property(readonly) MCEntity* player;
+- (MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth;
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray;
+- (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict;
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
 - (void)connect;
 @end

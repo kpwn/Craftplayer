@@ -30,7 +30,7 @@
     self.viewController = [[[MCViewController alloc] initWithNibName:@"MCViewController" bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-    [[MCSocket new] connect];
+    [[[MCSocket alloc] initWithServer:@"127.0.0.1:13371" andAuth:[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"]] connect];
     return YES;
 }
 
