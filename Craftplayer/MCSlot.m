@@ -8,6 +8,7 @@
 
 #import "MCSlot.h"
 #import "MCSocket.h"
+#import "MCNBT.h"
 #import "NSData+UserAdditions.h"
 #define canEnchant(value) ((256 <= value && value <= 259) || \
                           (267 <= value && value <= 279) || \
@@ -74,7 +75,7 @@
                         {
                             [slotData setObject:[NSNumber numberWithChar:(*(char*)(data+2))] forKey:@"Count"];
                             [slotData setObject:[NSNumber numberWithShort:OSSwapInt16(*(short*)(data+3))] forKey:@"Damage"];
-                            [slotData setObject:[[NSData dataWithBytes:(char*)(data+7) length:len] gzipInflate] forKey:@"EnchantmentData"];
+                            [slotData setObject:[MCNBT NBTWithRawData:[[NSData dataWithBytes:(char*)(data+7) length:len] gzipInflate]] forKey:@"EnchantmentData"];
                             goto end;
                         }
                     } else {

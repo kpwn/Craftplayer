@@ -17,6 +17,11 @@ typedef struct m_char
     short len;
     char data[];
 } m_char_t;
+typedef struct n_char
+{
+    short len;
+    char data[];
+} n_char_t;
 
 @interface MCString : NSObject
 {
@@ -25,4 +30,5 @@ typedef struct m_char
 +(m_char_t*)MCStringFromString:(NSString*)str;
 +(NSString*)NSStringWithMinecraftString:(m_char_t*)string;
 +(NSArray*)createColorandTextPairsForMinecraftFormattedString:(NSString*)string;
++(NSString*)NSStringWithNBTString:(n_char_t*)string;
 @end

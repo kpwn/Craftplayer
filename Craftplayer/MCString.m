@@ -19,10 +19,17 @@
     ret->len = flipshort([str lengthOfBytesUsingEncoding:NSUTF16BigEndianStringEncoding]/2);
     return ret;
 }
-+(NSString*)NSStringWithMinecraftString:(m_char_t*)string;
++(NSString*)NSStringWithMinecraftString:(m_char_t*)string
 {
     NSData* data = [[NSData alloc] initWithBytes:string->data length:flipshort(string->len)*2];
     id ret = [[NSString alloc] initWithData:data encoding:NSUTF16BigEndianStringEncoding];
+    [data release];
+    return [ret autorelease];
+}
++(NSString*)NSStringWithNBTString:(n_char_t*)string
+{
+    NSData* data = [[NSData alloc] initWithBytes:string->data length:flipshort(string->len)*2];
+    id ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     [data release];
     return [ret autorelease];
 }

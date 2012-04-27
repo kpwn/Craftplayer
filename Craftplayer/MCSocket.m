@@ -70,6 +70,7 @@
 }
 - (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict
 {
+    NSLog(@"%@", infoDict);
     if ([delegate respondsToSelector:@selector(slot:hasFinishedParsing:)]) {
         if ([NSThread isMainThread])
             [delegate slot:slot hasFinishedParsing:infoDict];

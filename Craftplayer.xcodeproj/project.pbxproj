@@ -34,6 +34,7 @@
 		EAF21EB6154ABEEE00685F0A /* MCLoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EB5154ABEEE00685F0A /* MCLoginPacket.m */; };
 		EAF21EBD154AC32B00685F0A /* MCHandshakePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EBC154AC32B00685F0A /* MCHandshakePacket.m */; };
 		EAF21EC0154AC49100685F0A /* MCSendPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EBF154AC46F00685F0A /* MCSendPacket.m */; };
+		EAF21EC3154B284D00685F0A /* MCNBT.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EC2154B284D00685F0A /* MCNBT.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,8 @@
 		EAF21EBC154AC32B00685F0A /* MCHandshakePacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCHandshakePacket.m; sourceTree = "<group>"; };
 		EAF21EBE154AC46F00685F0A /* MCSendPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCSendPacket.h; sourceTree = "<group>"; };
 		EAF21EBF154AC46F00685F0A /* MCSendPacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCSendPacket.m; sourceTree = "<group>"; };
+		EAF21EC1154B284C00685F0A /* MCNBT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNBT.h; sourceTree = "<group>"; };
+		EAF21EC2154B284D00685F0A /* MCNBT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCNBT.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +160,8 @@
 				EAD1426B154A9B70002EF252 /* MCSocketDelegate.h */,
 				EAE4F2FD154874120070076E /* MCSlot.h */,
 				EAE4F2FE154874120070076E /* MCSlot.m */,
+				EAF21EC1154B284C00685F0A /* MCNBT.h */,
+				EAF21EC2154B284D00685F0A /* MCNBT.m */,
 				EAE4F3051548922A0070076E /* NSData+UserAdditions.h */,
 				EAE4F3061548922A0070076E /* NSData+UserAdditions.m */,
 				EA0F5ECA1545E70F00AD9AC7 /* MCPacket.h */,
@@ -282,6 +287,7 @@
 				EAF21EA7154ABCD500685F0A /* MCChatPacket.m in Sources */,
 				EAF21EB6154ABEEE00685F0A /* MCLoginPacket.m in Sources */,
 				EAF21EBD154AC32B00685F0A /* MCHandshakePacket.m in Sources */,
+				EAF21EC3154B284D00685F0A /* MCNBT.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
