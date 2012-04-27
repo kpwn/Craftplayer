@@ -8,22 +8,25 @@
 
 #import "MCViewController.h"
 #import "MCString.h"
+#import "MCChatPacket.h"
 
 @implementation MCViewController
 @synthesize tv,tf;
 
 -(IBAction)sendMessage:(id)sender
 {
-    m_char_t* text=[MCString MCStringFromString:[tf text]];
-    unsigned char pckid=0x03;
-    [[sock outputStream] write:&pckid maxLength:1];
-    [[sock outputStream] write:(unsigned char*)text maxLength:m_char_t_sizeof(text)];
-    free(text);
+    [[MCChatPacket packetWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                  [tf text], @"Message"
+                                   , nil]] sendToSocket:sock];
     [tf setText:@""];
 }
 
+- (void)slot:(MCSlot *)slot hasFinishedParsing:(NSDictionary *)infoDict
+{
+}
 - (void)packet:(MCPacket *)packet gotParsed:(NSDictionary *)infoDict
 {
+    //NSLog(@"Got packet! %@", infoDict);
     if ([[infoDict objectForKey:@"PacketType"] isEqualToString:@"ChatMessage"]||[[infoDict objectForKey:@"PacketType"] isEqualToString:@"Disconnect"]) {
         NSArray* txt = [infoDict objectForKey:@"Message"];
         UIColor* color=nil;
@@ -48,7 +51,15 @@
         [tv scrollRangeToVisible:range];
     } 
 }
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self sendMessage:nil];
+    return NO;
+}
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    return NO;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [tf becomeFirstResponder];

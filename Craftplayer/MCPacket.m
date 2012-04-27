@@ -12,6 +12,7 @@
 #import "MCMetadata.h"
 #import "MCSlot.h"
 #import "MCWindow.h"
+#import "MCLoginPacket.h"
 @implementation MCPacket
 @synthesize sock,identifier,buffer;
 +(MCPacket*)packetWithID:(unsigned char)idt andSocket:(MCSocket*)sock
@@ -48,17 +49,8 @@
                                 result = @"Error";
                                 ekey = @"ErrorCode";
                             } else {
-                                unsigned char pckid=0x01;
-                                [[[self sock] outputStream] write:&pckid maxLength:1];
-                                unsigned int ver=OSSwapInt32(29);
-                                [[[self sock] outputStream] write:(uint8_t*)&ver maxLength:4];
-                                m_char_t* __name_msg=[MCString MCStringFromString:[[sock auth] username]];
-                                [[[self sock] outputStream] write:(unsigned char*)__name_msg maxLength:m_char_t_sizeof(__name_msg)];
-                                char* z=malloc(13);
-                                bzero(z, 13);
-                                [[[self sock] outputStream] write:(unsigned char*)z maxLength:13];
-                                free(__name_msg);
-                                free(z);
+                                [[MCLoginPacket packetWithInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                [NSNumber numberWithInt:29], @"Version", nil]] sendToSocket:[self sock]];
                                 result = @"Success";
                                 error = kdata;
                                 ekey = @"ServerHash";
