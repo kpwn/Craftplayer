@@ -30,10 +30,10 @@
 		EAE4F30215487C390070076E /* MCWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F30115487C390070076E /* MCWindow.m */; };
 		EAE4F304154890F70070076E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EAE4F303154890F70070076E /* libz.dylib */; };
 		EAE4F3071548922A0070076E /* NSData+UserAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EAE4F3061548922A0070076E /* NSData+UserAdditions.m */; };
-		EAF21EA2154ABC2900685F0A /* MCSendPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EA1154ABC2900685F0A /* MCSendPacket.m */; };
 		EAF21EA7154ABCD500685F0A /* MCChatPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EA6154ABCD500685F0A /* MCChatPacket.m */; };
 		EAF21EB6154ABEEE00685F0A /* MCLoginPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EB5154ABEEE00685F0A /* MCLoginPacket.m */; };
 		EAF21EBD154AC32B00685F0A /* MCHandshakePacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EBC154AC32B00685F0A /* MCHandshakePacket.m */; };
+		EAF21EC0154AC49100685F0A /* MCSendPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = EAF21EBF154AC46F00685F0A /* MCSendPacket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,14 +78,14 @@
 		EAE4F303154890F70070076E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		EAE4F3051548922A0070076E /* NSData+UserAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+UserAdditions.h"; sourceTree = "<group>"; };
 		EAE4F3061548922A0070076E /* NSData+UserAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+UserAdditions.m"; sourceTree = "<group>"; };
-		EAF21EA0154ABC2900685F0A /* MCSendPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MCSendPacket.h; path = ../MCSendPacket.h; sourceTree = "<group>"; };
-		EAF21EA1154ABC2900685F0A /* MCSendPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MCSendPacket.m; path = ../MCSendPacket.m; sourceTree = "<group>"; };
 		EAF21EA5154ABCD500685F0A /* MCChatPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCChatPacket.h; sourceTree = "<group>"; };
 		EAF21EA6154ABCD500685F0A /* MCChatPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCChatPacket.m; sourceTree = "<group>"; };
 		EAF21EB4154ABEEE00685F0A /* MCLoginPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLoginPacket.h; sourceTree = "<group>"; };
 		EAF21EB5154ABEEE00685F0A /* MCLoginPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLoginPacket.m; sourceTree = "<group>"; };
 		EAF21EBB154AC32B00685F0A /* MCHandshakePacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCHandshakePacket.h; sourceTree = "<group>"; };
 		EAF21EBC154AC32B00685F0A /* MCHandshakePacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCHandshakePacket.m; sourceTree = "<group>"; };
+		EAF21EBE154AC46F00685F0A /* MCSendPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCSendPacket.h; sourceTree = "<group>"; };
+		EAF21EBF154AC46F00685F0A /* MCSendPacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MCSendPacket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,8 +188,8 @@
 		EAF21EA4154ABC4F00685F0A /* MCSendPacket */ = {
 			isa = PBXGroup;
 			children = (
-				EAF21EA0154ABC2900685F0A /* MCSendPacket.h */,
-				EAF21EA1154ABC2900685F0A /* MCSendPacket.m */,
+				EAF21EBE154AC46F00685F0A /* MCSendPacket.h */,
+				EAF21EBF154AC46F00685F0A /* MCSendPacket.m */,
 				EAF21EA5154ABCD500685F0A /* MCChatPacket.h */,
 				EAF21EA6154ABCD500685F0A /* MCChatPacket.m */,
 				EAF21EB4154ABEEE00685F0A /* MCLoginPacket.h */,
@@ -263,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EAF21EC0154AC49100685F0A /* MCSendPacket.m in Sources */,
 				EA0F5ECD1545E98B00AD9AC7 /* MCString.m in Sources */,
 				EA0F5EAF1545D5EB00AD9AC7 /* main.m in Sources */,
 				EA0F5EB31545D5EB00AD9AC7 /* MCAppDelegate.m in Sources */,
@@ -278,7 +279,6 @@
 				EAE4F2FF154874120070076E /* MCSlot.m in Sources */,
 				EAE4F30215487C390070076E /* MCWindow.m in Sources */,
 				EAE4F3071548922A0070076E /* NSData+UserAdditions.m in Sources */,
-				EAF21EA2154ABC2900685F0A /* MCSendPacket.m in Sources */,
 				EAF21EA7154ABCD500685F0A /* MCChatPacket.m in Sources */,
 				EAF21EB6154ABEEE00685F0A /* MCLoginPacket.m in Sources */,
 				EAF21EBD154AC32B00685F0A /* MCHandshakePacket.m in Sources */,
