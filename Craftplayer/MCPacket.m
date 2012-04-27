@@ -37,11 +37,16 @@
                         short len = flipshort(*(short*)data);
                         if ([buffer length] == (len*2 + 2))
                         {
-                            [[[self sock] inputStream] setDelegate:[self sock]];
                             NSString* kdata=[MCString NSStringWithMinecraftString:(m_char_t*)data];
+                            NSString* result = @"Unknown";
+                            NSString* error = @"";
+                            NSString* ekey = @"";
                             if(![[[self sock] auth] joinToServer:kdata])
                             {
                                 NSLog(@"A wild error! <%@>", [[[[self sock] auth] login] objectForKey:kMCAuthResult]);
+                                error = [[[[self sock] auth] login] objectForKey:kMCAuthResult];
+                                result = @"Error";
+                                ekey = @"ErrorCode";
                             } else {
                                 unsigned char pckid=0x01;
                                 [[[self sock] outputStream] write:&pckid maxLength:1];
@@ -54,7 +59,17 @@
                                 [[[self sock] outputStream] write:(unsigned char*)z maxLength:13];
                                 free(__name_msg);
                                 free(z);
+                                result = @"Success";
+                                error = kdata;
+                                ekey = @"ServerHash";
                             }
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      @"Handshake", @"PacketType",
+                                                      result, @"Result",
+                                                      error, ekey,
+                                                      nil];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [[self sock] packet:self gotParsed:infoDict];
                             [self release];
                             return;
                         }
@@ -716,9 +731,9 @@
                                                   [NSNumber numberWithInt:eid], @"EntityID",
                                                   [NSNumber numberWithChar:yaw], @"Yaw",
                                                   [NSNumber numberWithChar:pitch], @"Pitch",
-                                                  [NSNumber numberWithChar:x], @"X",
-                                                  [NSNumber numberWithChar:y], @"Y",
-                                                  [NSNumber numberWithChar:z], @"Z",
+                                                  [NSNumber numberWithDouble:(double)x/32.0], @"X",
+                                                  [NSNumber numberWithDouble:(double)y/32.0], @"Y",
+                                                  [NSNumber numberWithDouble:(double)z/32.0], @"Z",
                                                   @"EntityTeleport", @"PacketType",
                                                   nil];
                         [[self sock] packet:self gotParsed:infoDict];
@@ -740,9 +755,9 @@
                                                   [NSNumber numberWithInt:eid], @"EntityID",
                                                   [NSNumber numberWithChar:yaw], @"Yaw",
                                                   [NSNumber numberWithChar:pitch], @"Pitch",
-                                                  [NSNumber numberWithChar:dx], @"DeltaX",
-                                                  [NSNumber numberWithChar:dy], @"DeltaY",
-                                                  [NSNumber numberWithChar:dz], @"DeltaZ",
+                                                  [NSNumber numberWithDouble:(double)dx/32.0], @"DeltaX",
+                                                  [NSNumber numberWithDouble:(double)dy/32.0], @"DeltaY",
+                                                  [NSNumber numberWithDouble:(double)dz/32.0], @"DeltaZ",
                                                   @"EntityLookRelativeMove", @"PacketType",
                                                   nil];
                         [[self sock] packet:self gotParsed:infoDict];
@@ -803,7 +818,7 @@
                     }
                     break;
                 case 0x12:
-                    if ([buffer length] == 3) {
+                    if ([buffer length] == 5) {
                         const unsigned char* data=[buffer bytes];
                         int eid = OSSwapInt32(*(int*)data);
                         char animation = *(char*)(data+4);
@@ -853,11 +868,264 @@
                         char deltaz = *(char*)(data+6);
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithInt:eid], @"EntityID",
-                                                  [NSNumber numberWithChar:deltax], @"DeltaX",
-                                                  [NSNumber numberWithChar:deltay], @"DeltaY",
-                                                  [NSNumber numberWithChar:deltaz], @"DeltaZ",
+                                                  [NSNumber numberWithDouble:(double)deltax/32.0], @"DeltaX",
+                                                  [NSNumber numberWithDouble:(double)deltay/32.0], @"DeltaY",
+                                                  [NSNumber numberWithDouble:(double)deltaz/32.0], @"DeltaZ",
                                                   @"EntityRelativeMove", @"PacketType",
                                                   nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x3D:
+                    if ([buffer length] == 17) {
+                        const unsigned char* data=[buffer bytes];
+                        int effectid = OSSwapInt32(*(int*)data);
+                        int x = OSSwapInt32(*(int*)(data+4));
+                        char y = (*(char*)(data+8));
+                        int z = OSSwapInt32(*(int*)(data+9));
+                        int kdata = OSSwapInt32(*(int*)(data+13));
+                        NSString* effectString = @"Unknown";
+                        switch (effectid) {
+                            case 1000:
+                            case 1001:
+                                effectString = @"Click";
+                                break;
+                            case 1002:
+                                effectString = @"Bow";
+                                break;
+                            case 1003:
+                                effectString = @"Door";
+                                break;
+                            case 1004:
+                                effectString = @"Fizz";
+                                break;
+                            case 1005:
+                                effectString = @"MusicDisc";
+                                break;
+                            case 1007:
+                                effectString = @"GhastCharge";
+                                break;
+                            case 1008:
+                                effectString = @"GhastFireball";
+                                break;
+                            case 1010:
+                                effectString = @"ZombieWood";
+                                break;
+                            case 1011:
+                                effectString = @"ZombieMetal";
+                                break;
+                            case 1012:
+                                effectString = @"ZombieWoodBreak";
+                                break;
+                            case 2000:
+                                effectString = @"Smoke";
+                                break;
+                            case 2001:
+                                effectString = @"BlockBreak";
+                                break;
+                            case 2002:
+                                effectString = @"SplashPotion";
+                                break;
+                            case 2003:
+                                effectString = @"EyeOfEnder";
+                                break;
+                            case 2004:
+                                effectString = @"MobSpawnEffect";
+                                break;
+                            default:
+                                break;
+                        }
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:effectid], @"EffectID",
+                                                  effectString, @"Effect",
+                                                  [NSNumber numberWithInt:x], @"X",
+                                                  [NSNumber numberWithChar:y], @"Y",
+                                                  [NSNumber numberWithInt:z], @"Z",
+                                                  [NSNumber numberWithInt:kdata], @"Data",
+                                                  @"SoundParticleEffect", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x3C:
+                    if ([buffer length] >= 32) {
+                        const unsigned char* data=[buffer bytes];
+                        int recount = OSSwapInt32(*(int*)(data+28));
+                        if ([buffer length] == (32+(recount*3))) {
+                            double x = OSSwapInt64(*(double*)(data));
+                            double y = OSSwapInt64(*(double*)(data+8));
+                            double z = OSSwapInt64(*(double*)(data+16));
+                            NSMutableArray* records = [NSMutableArray arrayWithCapacity:recount];
+                            int cn = recount;
+                            const unsigned char* recordsarr = (const unsigned char*)(data+32);
+                            while (cn--) {
+                                [records addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [NSNumber numberWithChar:*recordsarr++], @"X",
+                                                    [NSNumber numberWithChar:*recordsarr++], @"Y",
+                                                    [NSNumber numberWithChar:*recordsarr++], @"Z",
+                                                    nil]];
+                            }
+                            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [NSNumber numberWithDouble:x], @"X",
+                                                      [NSNumber numberWithDouble:y], @"Y",
+                                                      [NSNumber numberWithDouble:z], @"Z",
+                                                      records, @"Records",
+                                                      @"Explosion", @"PacketType",
+                                                      nil];
+                            [[self sock] packet:self gotParsed:infoDict];
+                            [[[self sock] inputStream] setDelegate:[self sock]];
+                            [self release];
+                            return;
+                        }
+                    }
+                    break;
+                case 0x16:
+                    if ([buffer length] == 8) {
+                        const unsigned char* data=[buffer bytes];
+                        int eida = OSSwapInt32(*(int*)data);
+                        int eidc = OSSwapInt32(*(int*)(data+4));
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:eida], @"CollectedEntityID",
+                                                  [NSNumber numberWithInt:eidc], @"CollectorEntityID",
+                                                  @"CollectItem", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x26:
+                    if ([buffer length] == 5) {
+                        const unsigned char* data=[buffer bytes];
+                        int eid = OSSwapInt32(*(int*)data);
+                        char status = *(char*)(data+4);
+                        NSString* statusstr = @"Unknown";
+                        switch (status) {
+                            case 2:
+                                statusstr = @"EntityHurt";
+                                break;
+                            case 3:
+                                statusstr = @"EntityDead";
+                                break;
+                            case 6:
+                                statusstr = @"WolfTaming";
+                                break;
+                            case 7:
+                                statusstr = @"WolfTamed";
+                                break;
+                            case 8:
+                                statusstr = @"WolfShaking";
+                                break;
+                            case 9:
+                                statusstr = @"EatingAccepted";
+                                break;
+                            case 10:
+                                statusstr = @"SheepEatingGrass";
+                                break;
+                            default:
+                                break;
+                        }
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:eid], @"EntityID",
+                                                  statusstr, @"Status",
+                                                  @"EntityStatus", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
+                case 0x17:
+                    if ([buffer length] >= 21) {
+                        const unsigned char* data=[buffer bytes];
+                        if (OSSwapInt32(*(int*)(data+17))) {
+                            if ([buffer length] != 27) {
+                                break;
+                                return;
+                            }
+                        }
+                        int eid = OSSwapInt32(*(int*)data);
+                        char type = *(char*)(data+4);
+                        int x = OSSwapInt32(*(int*)(data+5));
+                        int y = OSSwapInt32(*(int*)(data+9));
+                        int z = OSSwapInt32(*(int*)(data+13));
+                        int fromEid = OSSwapInt32(*(int*)(data+17));
+                        short speedX = 0;
+                        short speedY = 0;
+                        short speedZ = 0;
+                        NSDictionary* infoDict = nil;
+                        NSString* tstr = @"Unknown";
+                        switch (type) {
+                            case 1:
+                                tstr = @"Boat";
+                                break;
+                            case 10:
+                                tstr = @"Minecart";
+                                break;
+                            case 11:
+                                tstr = @"StorageCart";
+                                break;
+                            case 12:
+                                tstr = @"PoweredCart";
+                                break;
+                            case 50:
+                                tstr = @"ActivatedTNT";
+                                break;
+                            case 51:
+                                tstr = @"EnderCrystal";
+                                break;
+                            case 60:
+                                tstr = @"Arrow";
+                                break;
+                            case 61:
+                                tstr = @"Snowball";
+                                break;
+                            case 62:
+                                tstr = @"Egg";
+                                break;
+                            case 70:
+                                tstr = @"FallingSand";
+                                break;
+                            case 71:
+                                tstr = @"FallingGravel";
+                                break;
+                            case 72:
+                                tstr = @"EyeOfEnder";
+                                break;
+                            case 74:
+                                tstr = @"FallingDragonEgg";
+                                break;
+                            case 90:
+                                tstr = @"FishingFloat";
+                                break;
+                            default:
+                                break;
+                        }
+                        if (fromEid) {
+                            speedX = OSSwapInt16(*(short*)(data+21));
+                            speedY = OSSwapInt16(*(short*)(data+23));
+                            speedZ = OSSwapInt16(*(short*)(data+25));
+                        }
+                        infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithInt:eid], @"EntityID",
+                                    tstr, @"Type",
+                                    [NSNumber numberWithDouble:(double)x/32.0], @"X",
+                                    [NSNumber numberWithDouble:(double)y/32.0], @"Y",
+                                    [NSNumber numberWithDouble:(double)z/32.0], @"Z",
+                                    [NSNumber numberWithInt:fromEid], @"ThrowerEntityID",
+                                    [NSNumber numberWithDouble:(double)speedX/32.0], @"SpeedX",
+                                    [NSNumber numberWithDouble:(double)speedY/32.0], @"SpeedY",
+                                    [NSNumber numberWithDouble:(double)speedZ/32.0], @"SpeedZ",
+                                    @"SpawnObject", @"PacketType",
+                                    nil];
                         [[self sock] packet:self gotParsed:infoDict];
                         [[[self sock] inputStream] setDelegate:[self sock]];
                         [self release];
@@ -891,8 +1159,28 @@
                         }
                     }
                     break;
+                case 0x47:
+                    if ([buffer length] == 17) {
+                        const unsigned char* data=[buffer bytes];
+                        int eid=OSSwapInt32(*(int*)(data));
+                        int x=OSSwapInt32(*(int*)(data+5));
+                        int y=OSSwapInt32(*(int*)(data+9));
+                        int z=OSSwapInt32(*(int*)(data+13));
+                        NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithInt:eid], @"EntityID",
+                                                  [NSNumber numberWithDouble:(double)x/32.0], @"X",
+                                                  [NSNumber numberWithDouble:(double)y/32.0], @"Y",
+                                                  [NSNumber numberWithDouble:(double)z/32.0], @"Z",
+                                                  @"Thunderbolt", @"PacketType",
+                                                  nil];
+                        [[self sock] packet:self gotParsed:infoDict];
+                        [[[self sock] inputStream] setDelegate:[self sock]];
+                        [self release];
+                        return;
+                    }
+                    break;
                 case 0xC8:
-                    if ([buffer length] == 4) {
+                    if ([buffer length] == 5) {
                         const unsigned char* data=[buffer bytes];
                         int idt=OSSwapInt32(*(int*)(data));
                         char amount = *(char*)(data+4);
