@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @class MCViewController;
 
 @interface MCAppDelegate : UIResponder <UIApplicationDelegate>

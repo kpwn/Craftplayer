@@ -21,7 +21,7 @@
     [kret setIdentifier:idt];
     [kret setSock:sock];
     [kret setBuffer:[NSMutableData new]];
-    NSLog(@"Packet: %02X", idt);
+    //NSLog(@"Packet: %02X", idt);
     return kret;
 }
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
@@ -642,7 +642,6 @@
                         uint64_t *yaw = &yawv;
                         uint64_t pitchv = OSSwapInt32(*kdata++);
                         uint64_t *pitch = &pitchv;
-                        NSLog(@"X: %@", [NSNumber numberWithDouble: *(double*)x]);
                         NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithDouble:*(double*)x], @"X",
                                                   [NSNumber numberWithDouble:*(double*)stance], @"Stance",

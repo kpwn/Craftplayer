@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MCAuth.h"
+#import "MCSocket.h"
+#import "MCSocketDelegate.h"
 
-@interface MCViewController : UIViewController
-
+@interface MCViewController : UIViewController <MCSocketDelegate>
+{
+    UITextView* tv;
+    UITextField* tf;
+    MCSocket* sock;
+}
+@property(retain) IBOutlet UITextView* tv;
+@property(retain) IBOutlet UITextField* tf;
+-(IBAction)sendMessage:(id)sender;
 @end

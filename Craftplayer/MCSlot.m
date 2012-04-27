@@ -96,13 +96,13 @@ end:
     [buffer release];
     buffer=nil;
     [self setOldDelegate:nil];
-    [slotData autorelease];
     [self autorelease];
     return;
 }
 -(void)dealloc
 {
     NSLog(@"Out!");
+    [[self slotData] release];
     [self setSlotData:nil];
     [super dealloc];
 }

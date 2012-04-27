@@ -62,6 +62,7 @@
 		EA63E7721546DA710047F97C /* MCColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCColor.h; sourceTree = "<group>"; };
 		EA63E7731546DA720047F97C /* MCColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCColor.m; sourceTree = "<group>"; };
 		EA63E77E1546E9B60047F97C /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		EAD1426B154A9B70002EF252 /* MCSocketDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCSocketDelegate.h; sourceTree = "<group>"; };
 		EAE4F2F61546FB510070076E /* MCMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMetadata.h; sourceTree = "<group>"; };
 		EAE4F2F71546FB510070076E /* MCMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCMetadata.m; sourceTree = "<group>"; };
 		EAE4F2FA1546FB820070076E /* MCEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCEffect.h; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 				EA0F5EB71545D5EB00AD9AC7 /* MCViewController.xib */,
 				EA0F5EC71545DF1700AD9AC7 /* MCSocket.h */,
 				EA0F5EC81545DF1700AD9AC7 /* MCSocket.m */,
+				EAD1426B154A9B70002EF252 /* MCSocketDelegate.h */,
 				EAE4F2FD154874120070076E /* MCSlot.h */,
 				EAE4F2FE154874120070076E /* MCSlot.m */,
 				EAE4F3051548922A0070076E /* NSData+UserAdditions.h */,
@@ -322,7 +324,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Craftplayer/Craftplayer-Prefix.pch";
 				INFOPLIST_FILE = "Craftplayer/Craftplayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				OTHER_CODE_SIGN_FLAGS = "-gta";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -334,7 +337,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Craftplayer/Craftplayer-Prefix.pch";
 				INFOPLIST_FILE = "Craftplayer/Craftplayer-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

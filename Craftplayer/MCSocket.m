@@ -11,14 +11,36 @@
 #import "MCPacket.h"
 #import "MCWindow.h"
 @implementation MCSocket
-@synthesize inputStream, outputStream, auth, player, server;
+@synthesize inputStream, outputStream, auth, player, server, delegate;
 -(MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth
 {
     [self setAuth:iauth];
     [self setServer:iserver];
     return self;
 }
+-(void)threadLoop
+{
+    id pool = [NSAutoreleasePool new];
+    [self __connect];
+    while (1) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+        [pool drain];
+        pool = [NSAutoreleasePool new];
+    }
+}
 -(void)connect
+{
+    [self connect:NO];
+}
+-(void)connect:(BOOL)threaded
+{
+    if (threaded) {
+        [self performSelectorInBackground:@selector(threadLoop) withObject:nil];
+        return;
+    }
+    [self __connect];
+}
+-(void)__connect
 {
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
@@ -38,8 +60,8 @@
     outputStream = (NSOutputStream *)writeStream;
     [inputStream setDelegate:self];
     [outputStream setDelegate:self];
-    [inputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    [outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inputStream open];
     [outputStream open];
     m_char_t* _handshake_msg=[MCString MCStringFromString:[NSString stringWithFormat:@"%@;%@", [auth username], @"lmkcraft.com:20000", nil]];
@@ -48,25 +70,37 @@
     [outputStream write:(unsigned char*)_handshake_msg maxLength:m_char_t_sizeof(_handshake_msg)];
     free(_handshake_msg);
 }
-- (void)slot:(MCMetadata*)slot hasFinishedParsing:(NSDictionary*)infoDict
+- (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict
 {
-    NSLog(@"Got slot! %@", infoDict);
+    if ([delegate respondsToSelector:@selector(slot:hasFinishedParsing:)]) {
+        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(slot:hasFinishedParsing:)), slot, infoDict, nil] waitUntilDone:NO];
+    }
 }
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray
 {
-    NSLog(@"Got metadata! %@", infoArray);
+    if ([delegate respondsToSelector:@selector(metadata:hasFinishedParsing:)]) {
+        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(metadata:hasFinishedParsing:)), metadata, infoArray, nil] waitUntilDone:NO];
+    }
 }
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict
 {
     if ([[infoDict objectForKey:@"PacketType"] isEqualToString:@"Login"]) {
         player = [MCEntity entityWithIdentifier:[[infoDict objectForKey:@"EntityID"] intValue]];
     }
-    NSLog(@"Got packet! %@", infoDict);
+    if ([[infoDict objectForKey:@"PacketType"] isEqualToString:@"Disconnect"]) {
+        NSLog(@"%@", infoDict);
+    }
+    if ([delegate respondsToSelector:@selector(packet:gotParsed:)]) { 
+        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(packet:gotParsed:)), packet, infoDict, nil] waitUntilDone:NO];
+    }
+}
+- (void)sendMessageToDelegatewithTwoArgs:(NSArray*)args
+{
+    [[self delegate] performSelector:NSSelectorFromString([args objectAtIndex:0]) withObject:[args objectAtIndex:1] withObject:[args objectAtIndex:2]];
 }
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
 		case NSStreamEventHasSpaceAvailable:
-			NSLog(@"None!");
 			break;
 		case NSStreamEventOpenCompleted:
 			NSLog(@"Stream opened");

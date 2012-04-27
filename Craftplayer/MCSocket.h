@@ -10,6 +10,7 @@
 #import "MCAuth.h"
 #import "MCEntity.h"
 #import "MCSlot.h"
+#import "MCSocketDelegate.h"
 @class MCPacket;
 @class MCSlot;
 @class MCMetadata;
@@ -20,15 +21,18 @@
     MCAuth* auth;
     MCEntity* player;
     NSString* server;
+    id<MCSocketDelegate> delegate;
 }
 @property(readonly) NSInputStream *inputStream;
 @property(readonly) NSOutputStream *outputStream;
 @property(retain) MCAuth* auth;
 @property(retain) NSString* server;
 @property(readonly) MCEntity* player;
+@property(retain) id<MCSocketDelegate> delegate;
 - (MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth;
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray;
 - (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict;
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
 - (void)connect;
+- (void)connect:(BOOL)threaded;
 @end
