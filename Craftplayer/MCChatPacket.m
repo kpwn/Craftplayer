@@ -21,15 +21,12 @@
 }
 -(void)sendToSocket:(MCSocket *)socket
 {
-    [self performSelectorInBackground:@selector(sendToSocketThread:) withObject:socket];
-}
--(void)sendToSocketThread:(MCSocket *)socket
-{
     m_char_t* text=[MCString MCStringFromString:[self message]];
     unsigned char pckid=0x03;
-    [[socket outputStream] write:&pckid maxLength:1];
-    [[socket outputStream] write:(unsigned char*)text maxLength:m_char_t_sizeof(text)];
+    [[socket buffer] appendBytes:&pckid length:1];
+    [[socket buffer] appendBytes:text length:m_char_t_sizeof(text)];
     free(text);
+    [socket writeBuffer];
 }
 -(void)dealloc
 {

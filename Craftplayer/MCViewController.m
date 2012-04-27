@@ -47,7 +47,7 @@
             }
 
         }
-        NSRange range = NSMakeRange(tv.text.length - 1, 1);
+        NSRange range = NSMakeRange(tv.text.length, 0);
         [tv scrollRangeToVisible:range];
     } 
 }

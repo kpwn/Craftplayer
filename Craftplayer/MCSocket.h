@@ -22,6 +22,7 @@
     MCEntity* player;
     NSString* server;
     id<MCSocketDelegate> delegate;
+    NSMutableData* buffer;
 }
 @property(readonly) NSInputStream *inputStream;
 @property(readonly) NSOutputStream *outputStream;
@@ -29,10 +30,12 @@
 @property(retain) NSString* server;
 @property(readonly) MCEntity* player;
 @property(retain) id<MCSocketDelegate> delegate;
+@property(retain) NSMutableData* buffer;
 - (MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth;
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray;
 - (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict;
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
 - (void)connect;
 - (void)connect:(BOOL)threaded;
+- (void)writeBuffer;
 @end

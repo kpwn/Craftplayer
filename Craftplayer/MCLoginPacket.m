@@ -20,20 +20,14 @@
 }
 -(void)sendToSocket:(MCSocket *)socket
 {
-    [self performSelectorInBackground:@selector(sendToSocketThread:) withObject:socket];
-}
--(void)sendToSocketThread:(MCSocket *)socket
-{
     unsigned char pckid=0x01;
-    [[socket outputStream] write:&pckid maxLength:1];
-    [[socket outputStream] write:(uint8_t*)&version maxLength:4];
     m_char_t* __name_msg=[MCString MCStringFromString:[[socket auth] username]];
-    [[socket outputStream] write:(unsigned char*)__name_msg maxLength:m_char_t_sizeof(__name_msg)];
-    char* z=malloc(13);
-    bzero(z, 13);
-    [[socket outputStream] write:(unsigned char*)z maxLength:13];
+    [[socket buffer] appendBytes:&pckid length:1];
+    [[socket buffer] appendBytes:&version length:4];
+    [[socket buffer] appendBytes:__name_msg length:m_char_t_sizeof(__name_msg)];
+    [[socket buffer] setLength:[[socket buffer] length] + 13];
+    [socket writeBuffer];
     free(__name_msg);
-    free(z);
 }
 -(void)dealloc
 {

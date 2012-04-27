@@ -16,14 +16,11 @@
 }
 -(void)sendToSocket:(MCSocket *)socket
 {
-    [self performSelectorInBackground:@selector(sendToSocketThread:) withObject:socket];
-}
--(void)sendToSocketThread:(MCSocket *)socket
-{
     m_char_t* text=[MCString MCStringFromString:[NSString stringWithFormat:@"%@;%@", [[socket auth] username], [socket server], nil]];
     unsigned char pckid=0x02;
-    [[socket outputStream] write:&pckid maxLength:1];
-    [[socket outputStream] write:(unsigned char*)text maxLength:m_char_t_sizeof(text)];
+    [[socket buffer] appendBytes:&pckid length:1];
+    [[socket buffer] appendBytes:text length:m_char_t_sizeof(text)];
+    [socket writeBuffer];
     free(text);
 }
 -(void)dealloc

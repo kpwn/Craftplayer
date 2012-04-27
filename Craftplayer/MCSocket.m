@@ -12,7 +12,7 @@
 #import "MCWindow.h"
 #import "MCHandshakePacket.h"
 @implementation MCSocket
-@synthesize inputStream, outputStream, auth, player, server, delegate;
+@synthesize inputStream, outputStream, auth, player, server, delegate, buffer;
 -(MCSocket*)initWithServer:(NSString*)iserver andAuth:(MCAuth*)iauth
 {
     [self setAuth:iauth];
@@ -35,6 +35,7 @@
 }
 -(void)connect:(BOOL)threaded
 {
+    [self setBuffer:[[NSMutableData new] autorelease]];
     if (threaded) {
         [self performSelectorInBackground:@selector(threadLoop) withObject:nil];
         return;
@@ -70,13 +71,19 @@
 - (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict
 {
     if ([delegate respondsToSelector:@selector(slot:hasFinishedParsing:)]) {
-        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(slot:hasFinishedParsing:)), slot, infoDict, nil] waitUntilDone:NO];
+        if ([NSThread isMainThread])
+            [delegate slot:slot hasFinishedParsing:infoDict];
+        else
+            [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(slot:hasFinishedParsing:)), slot, infoDict, nil] waitUntilDone:NO];
     }
 }
 - (void)metadata:(MCMetadata*)metadata hasFinishedParsing:(NSArray*)infoArray
 {
     if ([delegate respondsToSelector:@selector(metadata:hasFinishedParsing:)]) {
-        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(metadata:hasFinishedParsing:)), metadata, infoArray, nil] waitUntilDone:NO];
+        if ([NSThread isMainThread])
+            [delegate metadata:metadata hasFinishedParsing:infoArray];
+        else
+            [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(metadata:hasFinishedParsing:)), metadata, infoArray, nil] waitUntilDone:NO];
     }
 }
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict
@@ -85,19 +92,47 @@
         player = [MCEntity entityWithIdentifier:[[infoDict objectForKey:@"EntityID"] intValue]];
     }
     if ([[infoDict objectForKey:@"PacketType"] isEqualToString:@"Disconnect"]) {
-        NSLog(@"%@", infoDict);
+        [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                                forMode:NSDefaultRunLoopMode];
+        [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop]
+                               forMode:NSDefaultRunLoopMode];
+        [inputStream close];
+        [outputStream close];
+        [outputStream release];
+        [inputStream release];
+        outputStream = nil;
+        inputStream = nil;
     }
     if ([delegate respondsToSelector:@selector(packet:gotParsed:)]) { 
-        [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(packet:gotParsed:)), packet, infoDict, nil] waitUntilDone:NO];
+        if ([NSThread isMainThread])
+            [delegate packet:packet gotParsed:infoDict];
+        else
+            [self performSelectorOnMainThread:@selector(sendMessageToDelegatewithTwoArgs:) withObject:[NSArray arrayWithObjects:NSStringFromSelector(@selector(packet:gotParsed:)), packet, infoDict, nil] waitUntilDone:NO];
     }
 }
 - (void)sendMessageToDelegatewithTwoArgs:(NSArray*)args
 {
     [[self delegate] performSelector:NSSelectorFromString([args objectAtIndex:0]) withObject:[args objectAtIndex:1] withObject:[args objectAtIndex:2]];
 }
+- (void)writeBuffer
+{
+    if ([outputStream streamStatus]==NSStreamStatusOpen) {
+        if ([buffer length])
+            [(NSOutputStream*)outputStream write:(uint8_t*)[buffer bytes] maxLength:[buffer length]];
+        [buffer setLength:0];
+    }
+}
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {
 	switch (streamEvent) {
+        case NSStreamEventEndEncountered:;
+            NSDictionary* infoDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                      [NSArray arrayWithObjects:[NSArray arrayWithObjects:[UIColor whiteColor], @"End of stream", nil], nil], @"Message",
+                                      @"Disconnect", @"PacketType",
+                                      nil];
+            [self packet:nil gotParsed:infoDict];
+            break;
 		case NSStreamEventHasSpaceAvailable:
+            [self writeBuffer];
 			break;
 		case NSStreamEventOpenCompleted:
 			NSLog(@"Stream opened");
@@ -112,6 +147,7 @@
 }
 -(void)dealloc
 {
+    [self setBuffer:nil];
     [self setAuth:nil];
     [super dealloc];
 }
