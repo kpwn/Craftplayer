@@ -83,7 +83,8 @@
     [[self view] addSubview:keyboardDoneButtonView];
     UIBarButtonItem *textFieldItem = [[[UIBarButtonItem alloc] initWithCustomView:tf] autorelease];
     UIBarButtonItem *sp = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL] autorelease];
-    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:sp, textFieldItem, sp, nil]];
+    UIBarButtonItem *spa = [[[UIBarButtonItem alloc] initWithTitle:@"Send" style:UIBarButtonItemStyleBordered target:self action:@selector(sendMessage:)] autorelease];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:sp, textFieldItem, sp, spa, sp, nil]];
         
     // where masterTextField is the textField is the one you tap, and the keyboard rises up along with the small textField.
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -94,14 +95,13 @@
 }
 - (void) didRotate:(NSNotification *)notification
 {   
-    UIDeviceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    
+    UIDeviceOrientation orientation = (UIDeviceOrientation)[UIApplication sharedApplication].statusBarOrientation;
     if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight)
     {
         CGRect tx = tv.frame;
         tx.size.height=106;
         tv.frame = tx;
-        tf.frame = CGRectMake(30, 10, 460, 26);
+        tf.frame = CGRectMake(30, 10, 420, 26);
         keyboardDoneButtonView.frame=CGRectMake(0, 106, 0, 0);
         [keyboardDoneButtonView sizeToFit];
     }
@@ -109,10 +109,12 @@
         CGRect tx = tv.frame;
         tx.size.height=200;
         tv.frame = tx;
-        tf.frame = CGRectMake(30, 10, 300, 30);
+        tf.frame = CGRectMake(30, 10, 260, 30);
         keyboardDoneButtonView.frame=CGRectMake(0, 200, 0, 0);
         [keyboardDoneButtonView sizeToFit];
     }
+    NSRange range = NSMakeRange(tv.text.length, 0);
+    [tv scrollRangeToVisible:range];
 }
 - (void)viewDidLoad
 {

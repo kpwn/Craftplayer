@@ -36,6 +36,7 @@
 - (void)slot:(MCSlot*)slot hasFinishedParsing:(NSDictionary*)infoDict;
 - (void)packet:(MCPacket*)packet gotParsed:(NSDictionary*)infoDict;
 - (void)connect;
+- (void)__connect;
 - (void)connect:(BOOL)threaded;
 - (void)writeBuffer;
 @end
