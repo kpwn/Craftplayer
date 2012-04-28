@@ -60,17 +60,63 @@
 {
     return NO;
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
+    sock = [[MCSocket alloc] initWithServer:@"176.31.64.248:25565" andAuth:[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"]];
+    [sock setDelegate:self];
+    [sock connect:NO];
+    keyboardDoneButtonView=[[UIToolbar alloc] initWithFrame:CGRectMake(0, 200, 0, 0)];
+    keyboardDoneButtonView.barStyle = UIBarStyleBlack;
+    keyboardDoneButtonView.translucent = YES;
+    keyboardDoneButtonView.tintColor = nil;
+    [keyboardDoneButtonView sizeToFit];
+    tf = [[UITextField alloc]initWithFrame:CGRectMake(30, 10, 300, 30)];
+    tf.borderStyle = UITextBorderStyleRoundedRect;
+    tf.autocorrectionType = UITextAutocorrectionTypeNo;
+    tf.keyboardType = UIKeyboardTypeDefault;
+    tf.returnKeyType = UIReturnKeySend;
+    tf.clearButtonMode = UITextFieldViewModeWhileEditing;
+    tf.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;    
+    
+    [tf setDelegate:self];
+    [[self view] addSubview:keyboardDoneButtonView];
+    UIBarButtonItem *textFieldItem = [[[UIBarButtonItem alloc] initWithCustomView:tf] autorelease];
+    UIBarButtonItem *sp = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL] autorelease];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:sp, textFieldItem, sp, nil]];
+        
+    // where masterTextField is the textField is the one you tap, and the keyboard rises up along with the small textField.
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    [tf setKeyboardType:UIKeyboardTypeDefault];
+	// Do any additional setup after loading the view, typically from a nib.
     [tf becomeFirstResponder];
+}
+- (void) didRotate:(NSNotification *)notification
+{   
+    UIDeviceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (orientation == UIDeviceOrientationLandscapeLeft || orientation == UIDeviceOrientationLandscapeRight)
+    {
+        CGRect tx = tv.frame;
+        tx.size.height=106;
+        tv.frame = tx;
+        tf.frame = CGRectMake(30, 10, 460, 26);
+        keyboardDoneButtonView.frame=CGRectMake(0, 106, 0, 0);
+        [keyboardDoneButtonView sizeToFit];
+    }
+    else {
+        CGRect tx = tv.frame;
+        tx.size.height=200;
+        tv.frame = tx;
+        tf.frame = CGRectMake(30, 10, 300, 30);
+        keyboardDoneButtonView.frame=CGRectMake(0, 200, 0, 0);
+        [keyboardDoneButtonView sizeToFit];
+    }
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    sock = [[MCSocket alloc] initWithServer:@"176.31.64.248:25565" andAuth:[MCAuth authWithUsername:@"xpwn" andPassword:@"dummy"]];
-    [sock setDelegate:self];
-    [sock connect:NO];
-	// Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload

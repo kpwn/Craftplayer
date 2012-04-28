@@ -22,6 +22,7 @@
     [kret setIdentifier:idt];
     [kret setSock:sock];
     [kret setBuffer:[NSMutableData new]];
+
     return kret;
 }
 - (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent {

@@ -11,11 +11,12 @@
 #import "MCSocket.h"
 #import "MCSocketDelegate.h"
 
-@interface MCViewController : UIViewController <MCSocketDelegate>
+@interface MCViewController : UIViewController <MCSocketDelegate, UITextFieldDelegate>
 {
     UITextView* tv;
     UITextField* tf;
     MCSocket* sock;
+    UIToolbar*  keyboardDoneButtonView;
 }
 @property(retain) IBOutlet UITextView* tv;
 @property(retain) IBOutlet UITextField* tf;
